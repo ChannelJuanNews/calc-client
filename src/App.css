@@ -1,0 +1,23 @@
+#tab-container div:nth-child(1) {
+    background-color: #0075BF
+}
+
+#tab-container div:nth-child(2) div  {
+    background-color: #FFC03C !important;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+}
+
+.container{
+    padding-top: 10vh
+}
+
+
+.newline {
+
+}

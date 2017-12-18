@@ -21,3 +21,13 @@
 .newline {
 
 }
+
+.checkbox-container {
+  display: flex;
+  justify-content: center;
+}
+
+.chkbx {
+  max-width: 20%;
+  overflow-x: visible;
+}

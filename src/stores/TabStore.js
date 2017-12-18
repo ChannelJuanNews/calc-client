@@ -40,7 +40,7 @@ class TabStore extends EventEmitter {
 
     getTab(hash){
         for(let i = 0; i < this.tabs.length; i++){
-            if (this.tabs.hash === hash){
+            if (this.tabs[i].hash === hash){
                 return this.tabs[i]
             }
         }

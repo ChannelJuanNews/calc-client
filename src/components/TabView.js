@@ -23,7 +23,6 @@ const muiTheme = getMuiTheme({
   }
 })
 
-
 class TabView extends Component {
     constructor(props){
         super(props)
@@ -32,7 +31,6 @@ class TabView extends Component {
             tab         : "",
             tabExists   : false,
             loading     : true
-
         }
     }
     componentWillMount(){
@@ -114,7 +112,7 @@ class TabView extends Component {
                 </MuiThemeProvider>
             )
         }
-        if (this.state.tab.isNew){
+        if (this.state.tab && this.state.tab.isNew){
             // return the edit view
             return <Edit hash={this.state.tab.hash} />
         }

@@ -31,3 +31,52 @@
   max-width: 20%;
   overflow-x: visible;
 }
+
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color : white;
+  text-align: center;
+  background-color: #0075BF;
+  height: 5vh;
+}
+
+.curtitle {
+  padding-top: 10px;
+}
+
+
+/* BEGIN GRID STYLES */
+*,
+*:after,
+*:before {
+  margin  : 0;
+  padding : 0;
+
+  /*removes padding behavior on widths*/
+  -webkit-box-sizing : border-box;
+     -mox-box-sizing : border-box;
+          box-sizing : border-box;
+}
+
+/*attribute selector*/
+[class*='bit-'] {
+  float   : left;
+  padding : 10px;
+}
+
+/*floats last ".bit-" to the right */
+[class*='bit-']:last-of-type {
+  padding-right : 10px;
+  float         : right;
+}
+
+/* Clearfix */
+.frame:after {
+  content : "";
+  display : table;
+  clear : both;
+}

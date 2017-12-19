@@ -37,7 +37,7 @@ class Edit extends Component {
             tab             : TabStore.getTab(this.props.hash),
             hash            : this.props.hash,
             objectivesDone  : false,
-            resourcesDone   : false,
+            existingTechDone: false,
             peaksDone       : false,
             loadProfileDone : false,
             constraintsDone : false
@@ -88,10 +88,12 @@ class Edit extends Component {
     getObjectives(){
       return (
         <MuiThemeProvider muiTheme={muiTheme}>
-          <div>
+          <div className="animated zoomIn">
+            <br />
             <div className="center">
               <h1>Please Enter Your Objectives</h1>
             </div>
+            <br />
             <div className="checkbox-container">
               <Checkbox  className="chkbx" label="Go Green" onCheck={ () => { this.setObjectives('gogreen') }} />
             </div>
@@ -128,39 +130,61 @@ class Edit extends Component {
     // EXISTING TECH ===========================================================
 
     setExistingTech(tech){
-
+      console.log("whoaaa", tech)
     }
 
     getExistingTech(){
       return(
         <MuiThemeProvider muiTheme={muiTheme}>
-          <div>
+          <div className="animated zoomIn">
+            <br />
             <div className="center">
               <h1>Do you have any of the following on site?</h1>
             </div>
+            <br />
             <div className="checkbox-container">
-              <Checkbox className="chkbx" label="Generator" onCheck={ () => { this.setExistingTech('generator') }} />
+              <Checkbox className="chkbx" id="generator" label="Generator"  onCheck={ () => { this.setExistingTech('generator') }} />
             </div>
             <div className="checkbox-container">
               <Checkbox className="chkbx" label="Solar Panels" onCheck={ () => { this.setExistingTech('solar') }} />
             </div>
             <div className="checkbox-container">
-              <Checkbox className="chkbx" label="Batteries" onCheck={ () => { this.setExistingTech('Batteries') }} />
+              <Checkbox className="chkbx" label="Batteries" onCheck={ () => { this.setExistingTech('batteries') }} />
             </div>
             <div className="checkbox-container">
               <Checkbox className="chkbx" label="None of the Above" onCheck={ () => {  }} />
             </div>
-            <RaisedButton className="center" label="Next" primary={true} onClick={ () => {
-              console.log('testsetsetset')
-              this.state.tab.isNew = false;
-              this.setState({
-                objectivesDone : true
-              })
-            } } />
+
+            <br />
+
+            <div className="center">
+              <RaisedButton className="center" label="Next" primary={true} onClick={ () => {
+                console.log('existing tech done')
+                this.setState({
+                  existingTechDone : true
+                })
+              } } />
+            </div>
+
           </div>
         </MuiThemeProvider>
       )
     }
+
+    // Peak data entry =========================================================
+
+
+    setPeaks() {
+
+    }
+
+    getPeaks(){
+
+    }
+
+
+
+
 
     // SAVE OR DELETE TAB ======================================================
     discardTab(){

@@ -43,6 +43,7 @@ class Home extends Component {
             // there are no packages
             return(
                 <div >
+                    <br />
                     <h1 className="center">
                         There are no packages
                     </h1>

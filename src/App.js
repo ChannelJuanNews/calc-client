@@ -8,6 +8,7 @@ import {
 import Header from "./components/Header"
 import TabView from "./components/TabView"
 import Home from "./components/Home"
+import Footer from "./components/Footer"
 
 import "./App.css"
 
@@ -22,6 +23,7 @@ class App extends Component {
                 <Header />
                 <Route exact path="/" component={Home} />
                 <Route path="/:hash" component={TabView} />
+                <Footer />
             </div>
         </Router>
     );

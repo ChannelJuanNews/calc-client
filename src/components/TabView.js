@@ -103,6 +103,7 @@ class TabView extends Component {
                         <div className="container center">
                             <CircularProgress size={80} thickness={5} color={"#0075BF"}  />
                         </div>
+                        <br />
                         <div className="center">
                             <p>
                                 Loading Package from Server or Tab List

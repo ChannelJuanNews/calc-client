@@ -41,8 +41,24 @@ class Edit extends Component {
     }
 
     componentDidUpdate(){
-      console.log('new update', this.state.tab)
-      TabActions.saveTab(this.state.tab) // saving the tab
+
+      // when the parent component (TabView) updates, so does this component
+      // we need to make sure the user is still on the same tab, otherwise we need to
+      // set the state variables with the correct values of the current
+
+      let hash = window.location.href.split('/')[window.location.href.split('/').length - 1]
+
+      if (this.state.tab.hash === hash){
+        console.log('new update', this.state.tab)
+        TabActions.saveTab(this.state.tab) // saving the tab
+        return
+      }
+
+      this.setState({
+        tab   : TabStore.getTab(hash),
+        hash  : hash
+      })
+
     }
 
 

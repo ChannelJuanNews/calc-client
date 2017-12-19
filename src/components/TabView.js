@@ -114,17 +114,16 @@ class TabView extends Component {
                 </MuiThemeProvider>
             )
         }
-        if (this.state.tab && this.state.tab.isNew || !this.state.tab.isCompleted){
-            // return the edit view
-            return <Edit hash={this.state.tab.hash} />
-        }
 
-        else if (this.state.tab.isCompleted){
-
+        if (this.state.tab.isCompleted){
           return (
               <h1> {this.state.hash} </h1>
           )
+
         }
+
+        // return the edit view by default
+        return <Edit hash={this.state.tab.hash} />
     }
 }
 

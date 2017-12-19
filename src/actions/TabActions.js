@@ -22,9 +22,9 @@ export function focusOnTab(hash){
     })
 }
 
-export function saveTab(hash){
+export function saveTab(tab){
     dispatcher.dispatch({
         type : "SAVE_TAB",
-        hash : hash
+        tab  : tab
     })
 }

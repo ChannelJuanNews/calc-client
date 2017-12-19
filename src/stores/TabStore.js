@@ -22,9 +22,47 @@ class TabStore extends EventEmitter {
 
     addTab(title){
         let newTab = {
-            title : title,
-            hash  : new Hashes.SHA256().b64( (new Date).getTime() + title).split("/").join(""),
-            isNew : true
+            title           : title,
+            hash            : new Hashes.SHA256().b64( (new Date).getTime() + title + Math.random()).split("/").join("").split("=").join(""),
+            isNew               : true,
+            isCompleted         : false,
+            objectivesDone      : false,
+            existingTechDone    : false,
+            peaksDone           : false,
+            loadProfileDone     : false,
+            constraintsDone     : false,
+            data            : {
+              objectives    : [],
+              existingTech  : [],
+              peakData : {
+                onPeak : {
+                  lowerBound : null,
+                  upperBound : null,
+                  price      : null,
+                },
+                midPeak : {
+                  lowerBound : null,
+                  upperBound : null,
+                  price : null
+                },
+                offPeak : null,
+                lowerBound : null,
+                upperBound : null,
+                price : null
+              },
+              loadProfile : {},
+              additionalConstraints : {
+                costConstraint      : null, // sum(costConstraint) <= x
+                solarSizeConstraint : null, // solar.power <= x
+                gridSizeConstraint  : {     // x <= grid.power <= y
+                  lowerBound : null,
+                  upperBound : null,
+                },
+                generatorSizeConstraint : null, // gen.power <= x
+                batterySizeConstraint   : null, // battery.energy <= x
+                chargeFromSolar         : null, // battery.power <= pv.power
+              }
+            }
         }
         this.tabs.pop()
         this.tabs.push(newTab)
@@ -46,6 +84,18 @@ class TabStore extends EventEmitter {
         }
     }
 
+    saveTab(tab){
+
+      for (let i = 0; i < this.tabs.length; i++){
+        if (this.tabs[i].hash === tab.hash){
+
+          this.tabs[i] = tab
+          return console.log('new tab is ====> ', this.tabs[i])
+        }
+      }
+      console.error('This tab does not exist, cannot save')
+    }
+
     handleActions(action){
         switch (action.type) {
             case "ADD_TAB":
@@ -56,6 +106,9 @@ class TabStore extends EventEmitter {
                 break;
             case "FOCUS_ON_TAB":
                 this.focusOnTab(action.hash)
+                break
+            case "SAVE_TAB":
+                this.saveTab(action.tab)
                 break
             default:
                 console.log("This action not supported")
@@ -70,5 +123,6 @@ class TabStore extends EventEmitter {
 
 
 const tabStore = new TabStore()
+window.TabStore = tabStore
 dispatcher.register(tabStore.handleActions.bind(tabStore))
 export default tabStore

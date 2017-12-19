@@ -35,40 +35,15 @@ class Edit extends Component {
         super(props)
         this.state = {
             tab             : TabStore.getTab(this.props.hash),
-            hash            : this.props.hash,
-            objectivesDone  : false,
-            existingTechDone: false,
-            peaksDone       : false,
-            loadProfileDone : false,
-            constraintsDone : false
+            hash            : this.props.hash
         }
-
-        this.state.tab.data = {
-          objectives    : [],
-          existingTech  : [],
-          peakData      : {
-            onPeak : {
-              time : null,
-              price: null
-            },
-            offPeak : {
-              time  : null,
-              price : null
-            },
-            midPeak : {
-              time  : null,
-              price : null
-            }
-          },
-          loadProfile : {},
-          additionalConstraints : []
-        }
+        this.checkboxes = {}
     }
 
     componentDidUpdate(){
-      console.log('new update')
+      console.log('new update', this.state.tab)
+      TabActions.saveTab(this.state.tab) // saving the tab
     }
-
 
 
     // OBJECTIVES ==============================================================
@@ -86,51 +61,75 @@ class Edit extends Component {
       console.log(this.state.tab)
     }
     getObjectives(){
-      return (
+
+
+      return(
         <MuiThemeProvider muiTheme={muiTheme}>
           <div className="animated zoomIn">
+
             <br />
             <div className="center">
-              <h1>Please Enter Your Objectives</h1>
+              <h1>What are your Objectives?</h1>
             </div>
+
             <br />
-            <div className="checkbox-container">
-              <Checkbox  className="chkbx" label="Go Green" onCheck={ () => { this.setObjectives('gogreen') }} />
+
+            <div className="frame">
+              <div className="bit-100">
+                <Checkbox label="Go green" onCheck={ () => {this.setObjectives('gogreen')} } ref={ (checkbox) => {this.checkboxes.one = checkbox} }  />
+              </div>
+              <div className="bit-100">
+                <Checkbox label="I want a micro grid" onCheck={ () => {this.setObjectives('microgrid')} } />
+              </div>
+              <div className="bit-100">
+                <Checkbox label="I want to lower my bill" onCheck={ () => {this.setObjectives('lowerbill')} } />
+              </div>
+              <div className="bit-100">
+                <Checkbox label="I want to go offgrid" onCheck={ () => {this.setObjectives('offgrid')} } />
+              </div>
+              <div className="bit-100">
+                <Checkbox label="I need backup power" onCheck={ () => {this.setObjectives('backuppower')} } />
+              </div>
+              <div className="bit-100">
+                <Checkbox label="Peak shaving" onCheck={ () => {this.setObjectives('peakshaving')} } />
+              </div>
             </div>
-            <div className="checkbox-container">
-              <Checkbox className="chkbx" label="I want a mircogrid" onCheck={ () => { this.setObjectives('microgrid') }} />
-            </div>
-            <div className="checkbox-container">
-              <Checkbox className="chkbx" label="I want to lower my bill" onCheck={ () => { this.setObjectives('lowerbill') }} />
-            </div>
-            <div className="checkbox-container">
-              <Checkbox className="chkbx" label="I want to go offgrid" onCheck={ () => { this.setObjectives('offgrid') }} />
-            </div>
-            <div className="checkbox-container">
-              <Checkbox className="chkbx" label="I need backup power" onCheck={ () => { this.setObjectives('backuppower') }} />
-            </div>
-            <div className="checkbox-container">
-              <Checkbox className="chkbx" label="Peak Shaving" onCheck={ () => { this.setObjectives('peakshaving') }} />
-            </div>
-             <br />
             <div className="center">
               <RaisedButton className="center" label="Next" primary={true} onClick={ () => {
-                console.log('testsetsetset')
-                this.state.tab.isNew = false;
+
+                /*
+                this.state.tab.isNew = false
+                this.state.tab.objectivesDone = true;
+
                 this.setState({
                   objectivesDone : true
                 })
+                */
+                let tempTab = Object.assign({}, this.state.tab)
+                tempTab.isNew = false
+                tempTab.objectivesDone = true
+                this.setState({
+                  tab : tempTab
+                })
+
               } } />
             </div>
+
+
           </div>
         </MuiThemeProvider>
+
       )
     }
 
     // EXISTING TECH ===========================================================
 
     setExistingTech(tech){
-      console.log("whoaaa", tech)
+      if(tech === "none"){
+        // delete all entires from array
+        // somehow uncheck all the boxes
+      }
+
     }
 
     getExistingTech(){
@@ -142,17 +141,20 @@ class Edit extends Component {
               <h1>Do you have any of the following on site?</h1>
             </div>
             <br />
-            <div className="checkbox-container">
-              <Checkbox className="chkbx" id="generator" label="Generator"  onCheck={ () => { this.setExistingTech('generator') }} />
-            </div>
-            <div className="checkbox-container">
-              <Checkbox className="chkbx" label="Solar Panels" onCheck={ () => { this.setExistingTech('solar') }} />
-            </div>
-            <div className="checkbox-container">
-              <Checkbox className="chkbx" label="Batteries" onCheck={ () => { this.setExistingTech('batteries') }} />
-            </div>
-            <div className="checkbox-container">
-              <Checkbox className="chkbx" label="None of the Above" onCheck={ () => {  }} />
+
+            <div className="frame">
+              <div className="bit-100">
+                <Checkbox label="Generator" onCheck={ () => {this.setExistingTech('generator') } } />
+              </div>
+              <div className="bit-100">
+                <Checkbox label="Solar panels" onCheck={ () => {this.setExistingTech('solar') } } />
+              </div>
+              <div className="bit-100">
+                <Checkbox label="Batteries" onCheck={ () => {this.setExistingTech('batteries') } } />
+              </div>
+              <div className="bit-100">
+                <Checkbox label="None of the above" onCheck={ () => {this.setExistingTech('none') } } />
+              </div>
             </div>
 
             <br />
@@ -191,24 +193,31 @@ class Edit extends Component {
 
     }
 
-    saveTab(){
+    saveTabToServer(){
 
     }
 
 
 
 
-
     render(){
+
+      // make sure the tab tab exists
+      if (!this.state.tab){
+        return null
+      }
       if (this.state.tab.isNew){
         return this.getObjectives()
       }
-      else if (this.state.objectivesDone){
+      else if (this.state.tab.objectivesDone){
         return this.getExistingTech()
+      }
+      else if (this.state.tab.existingTechDone){
+        return <h1>next</h1>
       }
 
         return (
-            <h1>  This is the edit view {this.props.hash} </h1>
+            <h1>  This is the edit view {this.props.hash} {this.state.tab.isNew.toString()}</h1>
         )
     }
 }

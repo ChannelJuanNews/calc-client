@@ -97,6 +97,7 @@ class TabView extends Component {
 
     render(){
         if (this.state.loading){
+
             return (
                 <MuiThemeProvider muiTheme={muiTheme}>
                     <div>
@@ -113,14 +114,17 @@ class TabView extends Component {
                 </MuiThemeProvider>
             )
         }
-        if (this.state.tab && this.state.tab.isNew){
+        if (this.state.tab && this.state.tab.isNew || !this.state.tab.isCompleted){
             // return the edit view
             return <Edit hash={this.state.tab.hash} />
         }
 
-        return (
-            <h1> {this.state.hash} </h1>
-        )
+        else if (this.state.tab.isCompleted){
+
+          return (
+              <h1> {this.state.hash} </h1>
+          )
+        }
     }
 }
 

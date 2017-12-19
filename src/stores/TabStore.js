@@ -13,6 +13,7 @@ const AddTab = {
     hash    : "Add"
 }
 
+const splitList = ["/", "=", "+"]
 
 class TabStore extends EventEmitter {
     constructor(){
@@ -23,7 +24,7 @@ class TabStore extends EventEmitter {
     addTab(title){
         let newTab = {
             title           : title,
-            hash            : new Hashes.SHA256().b64( (new Date).getTime() + title + Math.random()).split("/").join("").split("=").join(""),
+            hash            : new Hashes.SHA256().b64( (new Date).getTime() + title + Math.random()).split(/[\/=+]+/).join(""), // we use epoch time, user input title and a random match number to generate a hash with hopefully zero collissions
             isNew               : true,
             isCompleted         : false,
             objectivesDone      : false,

@@ -10,11 +10,16 @@ import {
     FontIcon,
     Checkbox,
     RaisedButton,
-    TimePicker
+    TimePicker,
+    TextField
 }  from 'material-ui'
 
 import { MuiThemeProvider, getMuiTheme }from 'material-ui/styles'
 import Icons from "./Icons"
+
+import peakPriceHelper from "../Helper/peakPrice"
+
+
 
 const muiTheme = getMuiTheme({
   appBar: {
@@ -262,7 +267,29 @@ class Edit extends Component {
     }
 
     // Peak data entry =========================================================
-    setPeaks() {
+    setPeaks(event, text) {
+
+
+
+      let keyCode = text.charCodeAt(text.length - 1) // t the char/key code for the character that was just inputted
+      console.log(keyCode, text)
+
+      let tempTab = Object.assign({}, this.state.tab)
+
+
+      if (event.target.id === "on-peak-rate-input"){
+        peakPriceHelper(this, event, text, tempTab, 'onPeak')
+      }
+      else if(event.target.id === "off-peak-rate-input"){
+        peakPriceHelper(this, event, text, tempTab, 'offPeak')
+      }
+      else if(event.target.id === "mid-peak-rate-input"){
+        peakPriceHelper(this, event, text, tempTab, 'midPeak')
+      }
+
+      else if (event.target.id === "something else"){
+        console.log('this is currently not supported')
+      }
 
     }
 
@@ -286,22 +313,13 @@ class Edit extends Component {
                                     On Peak
                                 </h3>
                                 <br />
-                                <div className="on-peak-time center">
-                                
+                                <label className="center">Start Time</label>
+                                <div className="on-peak-rate center">
 
-                                    <label className="time-picker-label"> Start Time </label>
-                                    <TimePicker
-                                        className="on-peak-start-time"
-                                       format="ampm"
-                                       hintText="24hr Format"
-                                       value={null}
-                                       onChange={ (event, date) => {
-                                           console.log(date)
-                                       }}
-                                     />
-
+                                  <TextField id="on-peak-rate-input" value={  this.state.tab.data.peakData.onPeakPrice  }  hintText="e.g. $7" onChange={this.setPeaks.bind(this)}/>
 
                                 </div>
+
                             </div>
                             <div className="bit-33">
                                 <h3 className="center">
@@ -320,6 +338,14 @@ class Edit extends Component {
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="default-buttons-container">
+                      <div className="center">
+                        <RaisedButton label="Default Time-of-use" primary={true} onClick={ () => {
+                            // somehow set the time of use rates to a default
+                        }}/>
+                      </div>
                     </div>
 
                 </div>

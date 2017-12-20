@@ -9,7 +9,8 @@ import {
     Tab,
     FontIcon,
     Checkbox,
-    RaisedButton
+    RaisedButton,
+    TimePicker
 }  from 'material-ui'
 
 import { MuiThemeProvider, getMuiTheme }from 'material-ui/styles'
@@ -98,7 +99,6 @@ class Edit extends Component {
       })
 
     }
-
 
 
     getObjectives(){
@@ -247,6 +247,11 @@ class Edit extends Component {
             <div className="center">
               <RaisedButton className="center" label="Next" primary={true} onClick={ () => {
                   console.log('this is where we would go from next')
+                  let tempTab = Object.assign({}, this.state.tab)
+                  tempTab.existingTechDone = true
+                  this.setState({
+                    tab : tempTab
+                  })
 
               } } />
             </div>
@@ -263,6 +268,64 @@ class Edit extends Component {
 
     getPeaks(){
 
+        return(
+            <MuiThemeProvider muiTheme={muiTheme}>
+                <div className="animated zoomIn">
+                    <br />
+
+                    <div className="center">
+                        <h1>Please enter your Time-of-use Rates</h1>
+                    </div>
+
+                    <br />
+
+                    <div className="time-of-use-container center">
+                        <div className="frame">
+                            <div className="bit-33">
+                                <h3 className="center">
+                                    On Peak
+                                </h3>
+                                <br />
+                                <div className="on-peak-time center">
+                                
+
+                                    <label className="time-picker-label"> Start Time </label>
+                                    <TimePicker
+                                        className="on-peak-start-time"
+                                       format="ampm"
+                                       hintText="24hr Format"
+                                       value={null}
+                                       onChange={ (event, date) => {
+                                           console.log(date)
+                                       }}
+                                     />
+
+
+                                </div>
+                            </div>
+                            <div className="bit-33">
+                                <h3 className="center">
+                                    Off Peak
+                                </h3>
+                                <div className="off-peak-time">
+
+                                </div>
+                            </div>
+                            <div className="bit-33">
+                                <h3 className="center">
+                                    Mid Peak
+                                </h3>
+                                <div className="mid-peak-time center">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </MuiThemeProvider>
+        )
+
     }
     // SAVE OR DELETE TAB ======================================================
     discardTab(){
@@ -274,8 +337,6 @@ class Edit extends Component {
     }
 
 
-
-
     render(){
 
       // make sure the tab tab exists
@@ -285,11 +346,11 @@ class Edit extends Component {
       if (this.state.tab.isNew){
           return this.getObjectives()
       }
-      else if (this.state.tab.objectivesDone){
+      else if (this.state.tab.objectivesDone && !this.state.tab.existingTechDone){
         return this.getExistingTech()
       }
       else if (this.state.tab.existingTechDone){
-        return <h1>next</h1>
+        return this.getPeaks()
       }
 
         return (

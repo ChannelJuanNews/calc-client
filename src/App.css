@@ -79,6 +79,10 @@
 }
 
 /* Clearfix */
+.frame {
+    width : 100%;
+}
+
 .frame:after {
   content : "";
   display : table;
@@ -100,9 +104,25 @@
 
 
 .bit-25 {width:25%;}
+.bit-33 {
+
+    width:33.33%;
+    background-color: red;
+    border-style: solid;
+    border-color: black;
+
+}
 .bit-50 {width:50%;}
 .bit-75 {width:75%;}
 .bit-100{width:100%;}
+
+
+.time-picker-label {
+    min-height: 100%; /* for the latest browsers which support min-height */
+    height: auto !important; /* for newer IE versions */
+    height: 100%; /* the only height-related attribute that IE6 does not ignore  */
+    position: absolute;
+}
 
 
 /*base tablet to small desktop styles*/
@@ -139,7 +159,8 @@
   .bit-5,
   .bit-7,
   .bit-9,
-  .bit-11 {
+  .bit-11,
+  .bit-33 {
     width: 100%;
   }
   .bit-100 div:nth-child(2) {
@@ -160,7 +181,8 @@
   .bit-9,
   .bit-10,
   .bit-11,
-  .bit-12 {
+  .bit-12,
+  .bit-33 {
     width: 100%;
   }
   .bit-100 div:nth-child(2) {

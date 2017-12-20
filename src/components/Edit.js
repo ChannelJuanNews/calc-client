@@ -28,6 +28,21 @@ const muiTheme = getMuiTheme({
 })
 
 
+// objectives
+const GOGREEN     = 'gogreen'
+const MICROGRID   = 'microgrid'
+const LOWERBILL   = 'lowerbill'
+const OFFGRID     = 'offgrid'
+const BACKUPPOWER = 'backuppower'
+const PEAKSHAVING = 'peakshaving'
+
+// existitng technology
+const GENERATOR = 'generator'
+const SOLAR     = 'solar'
+const BATTERIES = 'batteries'
+const NOTECH    = 'notech'
+
+
 class Edit extends Component {
 
 
@@ -74,7 +89,6 @@ class Edit extends Component {
         this.state.tab.data.objectives.push(objective)
       }
 
-      console.log(this.state.tab)
     }
     getObjectives(){
 
@@ -92,22 +106,22 @@ class Edit extends Component {
 
             <div className="frame">
               <div className="bit-100">
-                <Checkbox label="Go green" onCheck={ () => {this.setObjectives('gogreen')} } ref={ (checkbox) => {this.checkboxes.one = checkbox} }  />
+                <Checkbox label="Go green"                  defaultChecked={ ( () => {if (this.state.tab.data.objectives.indexOf(GOGREEN) === -1){return false}; return true} )() } onCheck={ () => {this.setObjectives(GOGREEN)} }  />
               </div>
               <div className="bit-100">
-                <Checkbox label="I want a micro grid" onCheck={ () => {this.setObjectives('microgrid')} } />
+                <Checkbox label="I want a micro grid"       defaultChecked={ ( () => {if (this.state.tab.data.objectives.indexOf(MICROGRID) === -1){return false}; return true} )() } onCheck={ () => {this.setObjectives(MICROGRID)} } />
               </div>
               <div className="bit-100">
-                <Checkbox label="I want to lower my bill" onCheck={ () => {this.setObjectives('lowerbill')} } />
+                <Checkbox label="I want to lower my bill"   defaultChecked={ ( () => {if (this.state.tab.data.objectives.indexOf(LOWERBILL) === -1){return false}; return true} )() } onCheck={ () => {this.setObjectives(LOWERBILL)} } />
               </div>
               <div className="bit-100">
-                <Checkbox label="I want to go offgrid" onCheck={ () => {this.setObjectives('offgrid')} } />
+                <Checkbox label="I want to go offgrid"      defaultChecked={ ( () => {if (this.state.tab.data.objectives.indexOf(OFFGRID) === -1){return false}; return true} )() } onCheck={ () => {this.setObjectives(OFFGRID)} } />
               </div>
               <div className="bit-100">
-                <Checkbox label="I need backup power" onCheck={ () => {this.setObjectives('backuppower')} } />
+                <Checkbox label="I need backup power"       defaultChecked={ ( () => {if (this.state.tab.data.objectives.indexOf(BACKUPPOWER) === -1){return false}; return true} )() } onCheck={ () => {this.setObjectives(BACKUPPOWER)} } />
               </div>
               <div className="bit-100">
-                <Checkbox label="Peak shaving" onCheck={ () => {this.setObjectives('peakshaving')} } />
+                <Checkbox label="Peak shaving"              defaultChecked={ ( () => {if (this.state.tab.data.objectives.indexOf(PEAKSHAVING) === -1){return false}; return true} )() } onCheck={ () => {this.setObjectives(PEAKSHAVING)} } />
               </div>
             </div>
             <div className="center">
@@ -121,6 +135,10 @@ class Edit extends Component {
                   objectivesDone : true
                 })
                 */
+                if (this.state.tab.data.objectives.length === 0 ){
+                  return alert("You must select at least one")
+                }
+
                 let tempTab = Object.assign({}, this.state.tab)
                 tempTab.isNew = false
                 tempTab.objectivesDone = true
@@ -141,11 +159,21 @@ class Edit extends Component {
     // EXISTING TECH ===========================================================
 
     setExistingTech(tech){
-      if(tech === "none"){
-        // delete all entires from array
-        // somehow uncheck all the boxes
+      if (tech === NOTECH){
+        this.state.tab.data.existingTech = [] // assign empty array
+        this.state.tab.data.existingTech.push(NOTECH)
       }
 
+      if (tech !== NOTECH){
+        let index = this.state.tab.data.existingTech.indexOf(NOTECH)
+        if  (index !== -1){
+            // element exists so remove it
+            this.state.tab.data.existingTech.splice(index, 1)
+        }
+        else {
+          this.state.tab.data.existingTech.push(tech)
+        }
+      }
     }
 
     getExistingTech(){
@@ -160,16 +188,16 @@ class Edit extends Component {
 
             <div className="frame">
               <div className="bit-100">
-                <Checkbox label="Generator" onCheck={ () => {this.setExistingTech('generator') } } />
+                <Checkbox label="Generator"  defaultChecked={ ( () => {if (this.state.tab.data.existingTech.indexOf(GENERATOR) === -1){return false}; return true} )() } onCheck={ () => {this.setExistingTech(GENERATOR) } } />
               </div>
               <div className="bit-100">
-                <Checkbox label="Solar panels" onCheck={ () => {this.setExistingTech('solar') } } />
+                <Checkbox label="Solar panels" defaultChecked={ ( () => {if (this.state.tab.data.existingTech.indexOf(SOLAR) === -1){return false}; return true} )() } onCheck={ () => {this.setExistingTech(SOLAR) } } />
               </div>
               <div className="bit-100">
-                <Checkbox label="Batteries" onCheck={ () => {this.setExistingTech('batteries') } } />
+                <Checkbox label="Batteries"  defaultChecked={ ( () => {if (this.state.tab.data.existingTech.indexOf(BATTERIES) === -1){return false}; return true} )() } onCheck={ () => {this.setExistingTech(BATTERIES) } } />
               </div>
               <div className="bit-100">
-                <Checkbox label="None of the above" onCheck={ () => {this.setExistingTech('none') } } />
+                <Checkbox label="None of the above" defaultChecked={false} onCheck={ () => {this.setExistingTech('none') } } />
               </div>
             </div>
 

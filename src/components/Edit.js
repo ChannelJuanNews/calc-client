@@ -270,12 +270,7 @@ class Edit extends Component {
     setPeaks(event, text) {
 
 
-
-      let keyCode = text.charCodeAt(text.length - 1) // t the char/key code for the character that was just inputted
-      console.log(keyCode, text)
-
       let tempTab = Object.assign({}, this.state.tab)
-
 
       if (event.target.id === "on-peak-rate-input"){
         peakPriceHelper(this, event, text, tempTab, 'onPeak')

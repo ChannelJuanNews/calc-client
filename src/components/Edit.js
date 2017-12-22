@@ -300,6 +300,9 @@ class Edit extends Component {
       else if (event.currentTarget.id === "default-peak-times"){
         peakPriceHelper(this, event, text, tempTab, 'defaultPeakTimes')
       }
+      else if (event.targe.id === "demand-input-on-peak"){
+
+      }
       else {
          console.log(event.currentTarget, event.target, event.target.id)
       }
@@ -357,7 +360,7 @@ class Edit extends Component {
                     <br />
 
                     <div className="center">
-                        <h1>Please enter your Time-of-use Rates</h1>
+                        <h1>Enter Your Energy Charge Rates</h1>
                     </div>
 
                     <br />
@@ -370,7 +373,7 @@ class Edit extends Component {
                                 </h3>
                                 <hr />
                                 <br />
-                                <label className="center">On Peak Rate ($/kWh)</label>
+                                <label className="center">Energy Rate</label>
                                 <div className="on-peak-rate peak-rate center">
                                   <TextField id="on-peak-rate-input" value={  this.state.tab.data.peakData.onPeakPrice  }  hintText="e.g. $0.12" onChange={this.setPeaks.bind(this)} style={{ textColor : "red"}}/>
                                 </div>
@@ -382,7 +385,7 @@ class Edit extends Component {
                                 </h3>
                                 <hr />
                                 <br />
-                                <label className="center">Off Peak Rate ($/kWh)</label>
+                                <label className="center"> Energy Rate</label>
                                 <div className="off-peak-rate peak-rate center">
                                     <TextField id="off-peak-rate-input" value={  this.state.tab.data.peakData.offPeakPrice  }  hintText="e.g. $0.12" onChange={this.setPeaks.bind(this)}/>
                                 </div>
@@ -393,14 +396,14 @@ class Edit extends Component {
                                 </h3>
                                 <hr />
                                 <br />
-                                <label className="center">Mid Peak Rate ($/kWh)</label>
+                                <label className="center"> Energy Rate</label>
                                 <div className="mid-peak-rate peak-rate center">
                                     <TextField id="mid-peak-rate-input" value={  this.state.tab.data.peakData.midPeakPrice  }  hintText="e.g. $0.12" onChange={this.setPeaks.bind(this)}/>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <br />
+
                     <div className="default-buttons-container">
                       <div className="center">
                         <RaisedButton className="blue-button" id="default-peaks" label="Use Defaults" primary={true} onClick={this.setPeaks.bind(this)}/>
@@ -408,6 +411,56 @@ class Edit extends Component {
                     </div>
 
                     <br />
+
+
+                    <div className="demand-charge-container">
+                      <div className="center">
+                        <h1>
+                          Please Enter Your Demand Charge Rates
+                        </h1>
+                      </div>
+                      <br />
+                      <div className="demand-charge-rates-container">
+                        <div className="frame">
+                          <div className="bit-33">
+                            <h3 className="center">
+                                On Peak
+                            </h3>
+                            <hr />
+                            <br />
+                            <label className="center">Demand Rate ($/kWh)</label>
+                            <div className="center">
+                              <TextField id="demand-input-on-peak peak-rate" value={this.state.tab.data.peakData.demandOnPeakPrice} hintText="e.g. $12.89" onChange={this.setPeaks.bind(this)} />
+                            </div>
+                          </div>
+                          <div className="bit-33">
+                            <h3 className="center">
+                                On Peak
+                            </h3>
+                            <hr />
+                            <br />
+                            <label className="center">Demand Rate ($/kWh)</label>
+                            <div className="center">
+                              <TextField id="demand-input-off-peak peak-rate" value={this.state.tab.data.peakData.demandOnPeakPrice} hintText="e.g. $12.89" onChange={this.setPeaks.bind(this)} />
+                            </div>
+                          </div>
+
+                          <div className="bit-33">
+                            <h3 className="center">
+                                On Peak
+                            </h3>
+                            <hr />
+                            <br />
+                            <label className="center">Demand Rate ($/kWh)</label>
+                            <div className="center">
+                              <TextField id="demand-input-mid-peak peak-rate" value={this.state.tab.data.peakData.demandOnPeakPrice} hintText="e.g. $12.89" onChange={this.setPeaks.bind(this)} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
 
                     <div className="peak-times-container">
 

@@ -39,6 +39,9 @@ class TabStore extends EventEmitter {
                 onPeakPrice  : "",
                 offPeakPrice : "",
                 midPeakPrice : "",
+                demandOnPeakPrice   : "",
+                demandOffPeakPrice  : "",
+                demandMidPeakPrice  : "",
                 peaks : { // possible data entires are on, off, and mid which map to the peak types
                   twelveAM  : null,
                   oneAM     : null,

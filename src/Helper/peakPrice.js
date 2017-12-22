@@ -11,9 +11,9 @@ export default (thisRef, event, text, tempTab, peak) => {
     midPeak(thisRef, event, text, tempTab)
   }
   else if(peak === 'defaultPeaks'){
-      tempTab.data.peakData.onPeakPrice = "$0.45"
-      tempTab.data.peakData.offPeakPrice = "$0.13"
-      tempTab.data.peakData.midPeakPrice = "$0.28"
+      tempTab.data.peakData.onPeakPrice = "$0.1033"
+      tempTab.data.peakData.offPeakPrice = "$0.0828"
+      tempTab.data.peakData.midPeakPrice = "$0.0727"
 
       return thisRef.setState({
           tab : tempTab
@@ -68,7 +68,7 @@ export default (thisRef, event, text, tempTab, peak) => {
           tab : tempTab
       })
   }
-  
+
   else {
       console.log('ERROR, we should not be here', event)
   }
@@ -81,6 +81,17 @@ function onPeak(thisRef, event, text, tempTab){
   // first is deletion,
   // second is insertion
   // and third is transformation from int to a double (e.g. 10 == > 10.00)
+
+  let formatter = new Intl.NumberFormat('en-US', {
+    style     : 'currency',
+    currency  : 'USD'
+  })
+
+  if (tempTab.data.peakData.onPeakPrice.length > text.length){
+    // there was a deletion
+
+  }
+
 
 
 

@@ -110,7 +110,8 @@
 .bit-33 {
 
     width:33.33%;
-
+    padding-bottom: 0px;
+    padding-top: 0px;
 
 }
 .bit-50 {width:50%;}
@@ -164,7 +165,7 @@ th {
 
 .peak-times-container {
     border: 1px solid black;
-    max-height: 40vh;
+    max-height: 25vh;
     overflow-y: scroll;
 }
 

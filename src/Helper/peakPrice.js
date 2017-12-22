@@ -149,6 +149,15 @@ function onPeak(thisRef, event, text, tempTab){
     if (tempTab.data.peakData.onPeakPrice.indexOf('.') !== -1){
       return alert('Decimal is already inserted')
     }
+
+    // if they input a decimal when it is empty
+    if (tempTab.data.peakData.onPeakPrice === ""){
+        tempTab.data.peakData.onPeakPrice = "$0.00"
+        return thisRef.setState({
+            tab : tempTab
+        })
+    }
+
     tempTab.data.peakData.onPeakPrice = tempTab.data.peakData.onPeakPrice + ".00"
     return thisRef.setState({
       tab : tempTab
@@ -276,6 +285,15 @@ function offPeak(thisRef, event, text, tempTab){
         if (tempTab.data.peakData.offPeakPrice.indexOf('.') !== -1){
           return alert('Decimal is already inserted')
         }
+
+        // if they input a decimal when it is empty
+        if (tempTab.data.peakData.offPeakPrice === ""){
+            tempTab.data.peakData.offPeakPrice = "$0.00"
+            return thisRef.setState({
+                tab : tempTab
+            })
+        }
+
         tempTab.data.peakData.offPeakPrice = tempTab.data.peakData.offPeakPrice + ".00"
         return thisRef.setState({
           tab : tempTab
@@ -335,8 +353,136 @@ function offPeak(thisRef, event, text, tempTab){
       }
 }
 
-function midPeak () {
+function midPeak (thisRef, event, text, tempTab) {
+    // there are 3 main categories we want to deal with.
+    // first is deletion,
+    // second is insertion
+    // and third is transformation from int to a double (e.g. 10 == > 10.00)
 
+    // this means there was a deletion
+    if (tempTab.data.peakData.midPeakPrice.length > text.length){
+      console.log('delete was called')
+      // there are 2 differnt types of deletion, the first is if there is no decimal
+      // and the second is if there is a decimal
+      if (tempTab.data.peakData.midPeakPrice.indexOf('.') !== -1){
+        // there is a decimal so deletion works differently
+        if (tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 2] === "0" && tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length -1] === "0"){
+          tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice.slice(0, -3)
+          return thisRef.setState({
+            tab : tempTab
+          })
+        }
+        else if(tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 2] === "0" && tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length -1 ] !== "0"){
+          tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice.slice(0, -1)
+          tempTab.data.peakData.midPeakPrice= tempTab.data.peakData.midPeakPrice + "0"
+          return thisRef.setState({
+            tab : tempTab
+          })
+        }
+
+        else {
+          let charToBeShiftedDown = tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 2]
+          tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice.slice(0, -2)
+          tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice + "0" + charToBeShiftedDown
+          return thisRef.setState({
+            tab : tempTab
+          })
+        }
+
+      }
+      else {
+        // no decimal so deletion works by just popping off the trailing number
+        tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice.slice(0, -1)
+        if (tempTab.data.peakData.midPeakPrice.length === 1){
+          tempTab.data.peakData.midPeakPrice = ""
+        }
+        return thisRef.setState({
+          tab : tempTab
+        })
+      }
+    }
+
+    // if there was no deletion, then there was an insertion. we handle two types of insertion
+    // the first is normal insertion, and the second is insertion with a decimal since there can
+    // only be insertion with a precision of up to 2 decimal places
+
+    // first, let's grab the key code for the character that was just inserted.
+    // we want to validate that it is in fact a number using ASCII
+    let keyCode = text.charCodeAt(text.length - 1) // t the char/key code for the character that was just inputted
+    console.log(keyCode, text)
+
+
+    // first we deal with the transformation insertion
+    if (keyCode === 46){
+      if (tempTab.data.peakData.midPeakPrice.indexOf('.') !== -1){
+        return alert('Decimal is already inserted')
+      }
+
+      // if they input a decimal when it is empty
+      if (tempTab.data.peakData.midPeakPrice === ""){
+          tempTab.data.peakData.midPeakPrice = "$0.00"
+          return thisRef.setState({
+              tab : tempTab
+          })
+      }
+
+      tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice + ".00"
+      return thisRef.setState({
+        tab : tempTab
+      })
+    }
+
+    if(keyCode >= 48 && keyCode <= 57){
+
+      if (tempTab.data.peakData.midPeakPrice.indexOf('.') !== -1){
+
+          // since there is a decimal, insertion works differently
+          console.log(tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 1], "=======================")
+
+          if (tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 2 ] === "0" && tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 1] === "0"){
+            tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice.slice(0, -1)
+            tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice + text[text.length -1]
+            return thisRef.setState({
+              tab : tempTab
+            })
+          }
+
+          else if (tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 2] === "0" && tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length -1] !== "0"){
+            console.log('this is where we are supposed to do the stuffs')
+            let charToBeShiftedUp = tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 1]
+            tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice.slice(0, -2)
+            tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice + charToBeShiftedUp + text[text.length - 1]
+            return thisRef.setState({
+              tab : tempTab
+            })
+          }
+          else if (tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 2] !== "0" && tempTab.data.peakData.midPeakPrice[tempTab.data.peakData.midPeakPrice.length - 1] === "0"){
+            tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice.slice(0, -1)
+            tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice + text[text.length -1]
+            return thisRef.setState({
+              tab : tempTab
+            })
+          }
+          else {
+            return alert('decimal precision of only 2 points allowed')
+          }
+
+      }
+      else {
+        // there is no decimal so indertion works by just appending to end
+        if (tempTab.data.peakData.midPeakPrice === ""){
+          tempTab.data.peakData.midPeakPrice = "$" // if empty, initialize with a dollar sign
+        }
+        tempTab.data.peakData.midPeakPrice = tempTab.data.peakData.midPeakPrice + text[text.length - 1]
+        return thisRef.setState({
+          tab : tempTab
+        })
+      }
+
+    }
+    else {
+      return alert('Please input numbers only')
+    }
 }
 
 

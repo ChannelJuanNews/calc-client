@@ -111,8 +111,6 @@
 
     width:33.33%;
 
-    border: groove 3px black;
-    border-color: black;
 
 }
 .bit-50 {width:50%;}
@@ -165,7 +163,7 @@ th {
 }
 
 .peak-times-container {
-    border: 2px solid black;
+    border: 1px solid black;
     max-height: 30vh;
     overflow-y: scroll;
 }
@@ -173,6 +171,20 @@ th {
 .peak-times-table-container {
     /* border : 2px solid red; */
 }
+
+.load-data-container {
+    padding-top: 1vh;
+    padding-left: 1vh;
+    padding-right: 1vh;
+}
+
+.or {
+    padding-left: 1vh;
+    padding-right: 1vh;
+    padding-top: 1vh;
+
+}
+
 
 
 /*base tablet to small desktop styles*/

@@ -17,11 +17,15 @@ import {
     TableHeader,
     TableHeaderColumn,
     TableRow,
-    TableRowColumn
+    TableRowColumn,
+    Step,
+    Stepper,
+    StepButton,
 }  from 'material-ui'
 
 import { MuiThemeProvider, getMuiTheme }from 'material-ui/styles'
 import Icons from "./Icons"
+import ReactDataSheet from 'react-datasheet';
 
 import peakPriceHelper from "../Helper/peakPrice"
 
@@ -583,12 +587,170 @@ class Edit extends Component {
     getLoadData(){
         return(
             <MuiThemeProvider muiTheme={muiTheme}>
-                <div class="load-data-container">
+                <div className="load-data-container">
+
+                    <div className="center">
+                        <h1> Please enter your load profile</h1>
+                    </div>
+                    <br />
+
+                    <ReactDataSheet
+                        data={this.state.tab.data.loadProfile.grid}
+                        valueRenderer={ (cell) => cell.value }
+                        onChange= {(cell, rowI, colJ, value) => {
+                            let tempTab = Object.assign({}, this.state.tab)
+                            for (let i = 0; i < tempTab.data.loadProfile.grid.length; i++){
+                                if(tempTab.data.loadProfile.grid[rowI][colJ] !== value){
+                                    tempTab.data.loadProfile.grid[rowI][colJ].value = value
+                                }
+
+                            }
+                            return this.setState({
+                                tab : tempTab
+                            })
+                        }}
+                     />
+                     <br />
+
+
+
+                     <div className="center">
+
+                         <input
+                             id="file-upload"
+                             type="file"
+                             style={{display : "none"}}
+                             accept=".xlsx, .xls, .csv"
+                             onChange={ (event, stuff) => {
+                                 window.TEST = event.target
+
+                                 // we have a file
+                                 if(event.target.files.length !== 0){
+
+
+                                     let tempTab = Object.assign({}, this.state.tab)
+
+                                     // TODO: need to implement actual reading of .csv, .xlsx, .xls files and populate the grid with it
+
+                                     for (let i = 0; i < tempTab.data.loadProfile.grid.length - 1; i++){
+                                         for (let j = 1; j < tempTab.data.loadProfile.grid[i].length; j++){
+                                             tempTab.data.loadProfile.grid[i][j].value =  Math.floor(Math.random() * 10) +  Math.floor(Math.random() * 10) +  Math.floor(Math.random() * 10)
+                                         }
+                                     }
+
+                                     return this.setState({
+                                         tab : tempTab
+                                     })
+
+                                 }
+                             }}
+                         />
+
+                         <RaisedButton className="blue-button" label="Default Load Data" primary={true} onClick={()=>{
+                             let tempTab = Object.assign({}, this.state.tab)
+
+                             // TODO: need to implement default load data
+
+                             for (let i = 0; i < tempTab.data.loadProfile.grid.length - 1; i++){
+                                 for (let j = 1; j < tempTab.data.loadProfile.grid[i].length; j++){
+                                     tempTab.data.loadProfile.grid[i][j].value =  Math.floor(Math.random() * 10) +  Math.floor(Math.random() * 10) +  Math.floor(Math.random() * 10)
+                                 }
+                             }
+
+                             return this.setState({
+                                 tab : tempTab
+                             })
+                         }}/>
+                         <span className="or">
+                             <b> OR </b>
+                         </span>
+                         <RaisedButton className="blue-button" label="Upload Load Data" primary={true} onClick={()=>{
+                             let upload = document.getElementById('file-upload')
+                             upload.click()
+                         }}/>
+
+
+
+
+                     </div>
+
+                     <br />
+                     <div className="center">
+                         <RaisedButton className="blue-button" label="Next" primary={true} onClick={()=>{
+                             let tempTab = Object.assign({}, this.state.tab)
+                             tempTab.loadProfileDone = true
+                             return this.setState({
+                                 tab : tempTab
+                             })
+
+                         }}/>
+                     </div>
 
                 </div>
             </MuiThemeProvider>
         )
     }
+
+    setAdditionalConstraints(){
+
+    }
+    getAdditionalConstraints(){
+        return (
+            <MuiThemeProvider muiTheme={muiTheme}>
+                <div className="constraints-container">
+                    <br />
+                    <div className="center">
+                        <h1> Additional Constraints </h1>
+                    </div>
+                    <div className="center">
+                        <p> Do you have any of the following constraints?</p>
+                    </div>
+                    <br />
+                    {/*we default to the first step*/}
+                    <Stepper linear={false} activeStep={this.state.tab.data.additionalConstraints.step}>
+                        <Step>
+                            <StepButton onClick={() => {
+                                let tempTab = Object.assign({}, this.state.tab)
+                                tempTab.data.additionalConstraints.step = 0
+                                this.setState({
+                                    tab : tempTab
+                                })
+                            }}>
+                                Additional Constraints
+                            </StepButton>
+                        </Step>
+                        <Step>
+                            <StepButton onClick={() => {
+                                let tempTab = Object.assign({}, this.state.tab)
+                                tempTab.data.additionalConstraints.step = 1
+                                this.setState({
+                                    tab : tempTab
+                                })
+                            }}>
+                                More Info
+                            </StepButton>
+                        </Step>
+                        <Step>
+                            <StepButton onClick={() => {
+                                let tempTab = Object.assign({}, this.state.tab)
+                                tempTab.data.additionalConstraints.step = 2
+                                this.setState({
+                                    tab : tempTab
+                                })
+                            }}>
+                                Done
+                            </StepButton>
+                        </Step>
+                    </Stepper>
+
+                </div>
+            </MuiThemeProvider>
+        )
+    }
+
+
+    //
+
 
 
 
@@ -617,14 +779,16 @@ class Edit extends Component {
       else if (this.state.tab.existingTechDone && !this.state.tab.peaksDone){
         return this.getPeaks()
       }
-      else if (this.state.tab.peaksDone && !this.state.tab.constraintsDone){
+      else if (this.state.tab.peaksDone && !this.state.tab.loadProfileDone){
           return this.getLoadData()
       }
+      else if (this.state.tab.loadProfileDone && !this.state.tab.constraintsDone){
+          return this.getAdditionalConstraints()
+      }
 
-
-        return (
-            <h1>  This is the edit view {this.props.hash} {this.state.tab.isNew.toString()}</h1>
-        )
+      return (
+          <h1>  This is the edit view {this.props.hash} {this.state.tab.isNew.toString()}</h1>
+      )
     }
 }
 

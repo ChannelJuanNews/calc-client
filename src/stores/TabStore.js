@@ -66,8 +66,48 @@ class TabStore extends EventEmitter {
                   elevenPM  : null,
                 }
               },
-              loadProfile : {},
+              loadProfile : {
+                  file : null,
+                  grid : [
+
+                      [{value : 7, readOnly : true}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}],
+                      [{value : 6, readOnly : true}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}],
+                      [{value : 5, readOnly : true}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}],
+                      [{value : 4, readOnly : true}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}],
+                      [{value : 3, readOnly : true}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}],
+                      [{value : 2, readOnly : true}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}],
+                      [{value : 1, readOnly : true}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}, {value : null}],
+                      [
+                        {value : null, readOnly : true},
+                        {value : 1, readOnly : true},
+                        {value : 2, readOnly : true},
+                        {value : 3, readOnly : true},
+                        {value : 4, readOnly : true},
+                        {value : 5, readOnly : true},
+                        {value : 6, readOnly : true},
+                        {value : 7, readOnly : true},
+                        {value : 8, readOnly : true},
+                        {value : 9, readOnly : true},
+                        {value : 10, readOnly : true},
+                        {value : 11, readOnly : true},
+                        {value : 12, readOnly : true},
+                        {value : 13, readOnly : true},
+                        {value : 14, readOnly : true},
+                        {value : 15, readOnly : true},
+                        {value : 16, readOnly : true},
+                        {value : 17, readOnly : true},
+                        {value : 18, readOnly : true},
+                        {value : 19, readOnly : true},
+                        {value : 20, readOnly : true},
+                        {value : 21, readOnly : true},
+                        {value : 22, readOnly : true},
+                        {value : 23, readOnly : true},
+                        {value : 24, readOnly : true}
+                      ],
+                  ]
+              },
               additionalConstraints : {
+                step : 0,
                 costConstraint      : null, // sum(costConstraint) <= x
                 solarSizeConstraint : null, // solar.power <= x
                 gridSizeConstraint  : {     // x <= grid.power <= y

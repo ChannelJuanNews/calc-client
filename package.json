@@ -8,6 +8,7 @@
     "material-ui": "^0.20.0",
     "react": "^16.2.0",
     "react-data-grid": "^2.0.78",
+    "react-datasheet": "^1.2.18",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17"

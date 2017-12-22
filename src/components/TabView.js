@@ -117,7 +117,7 @@ class TabView extends Component {
 
         if (this.state.tab.isCompleted){
           return (
-              <h1> {this.state.hash} </h1>
+              <h1> This is where we would view the end result {this.state.hash} </h1>
           )
 
         }

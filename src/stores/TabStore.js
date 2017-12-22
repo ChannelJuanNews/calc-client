@@ -132,7 +132,11 @@ class TabStore extends EventEmitter {
                 chargeFromSolar     : { // battery.power <= pv.power
                     checked : false,
                     value : null
+                },
+                noConstraints : {
+                  checked : false
                 }
+
               }
             }
         }

@@ -588,7 +588,7 @@ class Edit extends Component {
         return(
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div className="load-data-container">
-
+                    <br />
                     <div className="center">
                         <h1> Please enter your load profile</h1>
                     </div>
@@ -748,7 +748,21 @@ class Edit extends Component {
             }
             tempTab.data.additionalConstraints.chargeFromSolar.checked = true
         }
+        else if (event.target.id === "no-constraints"){
+          tempTab.data.additionalConstraints.costConstraint.checked = false
+          tempTab.data.additionalConstraints.solarSizeConstraint.checked = false
+          tempTab.data.additionalConstraints.gridSizeConstraint.checked = false
+          tempTab.data.additionalConstraints.generatorSizeConstraint.checked = false
+          tempTab.data.additionalConstraints.batterySizeConstraint.checked = false
+          tempTab.data.additionalConstraints.chargeFromSolar.checked = false
+          tempTab.data.additionalConstraints.noConstraints.checked = true
 
+          return this.setState({
+            tab : tempTab
+          })
+
+        }
+        tempTab.data.additionalConstraints.noConstraints.checked = false
         return this.setState({
             tab : tempTab
         })
@@ -764,6 +778,7 @@ class Edit extends Component {
                     <Checkbox id="generator-size-constraint"  label="Generator Size Constraint" checked={this.state.tab.data.additionalConstraints.generatorSizeConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
                     <Checkbox id="battery-size-constraint"  label="Battery Size Constraint" checked={this.state.tab.data.additionalConstraints.batterySizeConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
                     <Checkbox id="charge-from-solar"  label="Charge From Solar" checked={this.state.tab.data.additionalConstraints.chargeFromSolar.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
+                    <Checkbox id="no-constraints"  label="No Constraints" checked={this.state.tab.data.additionalConstraints.noConstraints.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
                 </div>
             )
         }

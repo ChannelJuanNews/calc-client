@@ -64,14 +64,11 @@ export default (thisRef, event, text, tempTab, peak) => {
       tempTab.data.peakData.peaks.elevenPM = "off"
       tempTab.data.peakData.peaks.twelveAM = "off"
 
-
       return thisRef.setState({
           tab : tempTab
       })
-
   }
-
-
+  
   else {
       console.log('ERROR, we should not be here', event)
   }
@@ -163,9 +160,6 @@ function onPeak(thisRef, event, text, tempTab){
       tab : tempTab
     })
   }
-
-
-
 
 
   if(keyCode >= 48 && keyCode <= 57){

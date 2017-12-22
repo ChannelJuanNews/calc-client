@@ -185,6 +185,11 @@ th {
 
 }
 
+.stepper-container {
+    max-width: 80vw;
+    margin: auto;
+}
+
 
 
 /*base tablet to small desktop styles*/

@@ -669,9 +669,6 @@ class Edit extends Component {
                              upload.click()
                          }}/>
 
-
-
-
                      </div>
 
                      <br />
@@ -691,8 +688,99 @@ class Edit extends Component {
         )
     }
 
-    setAdditionalConstraints(){
+    setAdditionalConstraints(event){
+        console.log(event.target)
 
+        let tempTab = Object.assign({}, this.state.tab)
+
+        if (event.target.id === "cost-constraint"){
+            if (tempTab.data.additionalConstraints.costConstraint.checked){
+                tempTab.data.additionalConstraints.costConstraint.checked = false
+                return this.setState({
+                    tab : tempTab
+                })
+            }
+            tempTab.data.additionalConstraints.costConstraint.checked = true
+        }
+        else if (event.target.id === "solar-size-constraint"){
+            if (tempTab.data.additionalConstraints.solarSizeConstraint.checked){
+                tempTab.data.additionalConstraints.solarSizeConstraint.checked = false
+                return this.setState({
+                    tab : tempTab
+                })
+            }
+            tempTab.data.additionalConstraints.solarSizeConstraint.checked = true
+        }
+        else if (event.target.id === "grid-size-constraint"){
+            if (tempTab.data.additionalConstraints.gridSizeConstraint.checked){
+                tempTab.data.additionalConstraints.gridSizeConstraint.checked = false
+                return this.setState({
+                    tab : tempTab
+                })
+            }
+            tempTab.data.additionalConstraints.gridSizeConstraint.checked = true
+        }
+
+        else if(event.target.id === "generator-size-constraint"){
+            if (tempTab.data.additionalConstraints.generatorSizeConstraint.checked){
+                tempTab.data.additionalConstraints.generatorSizeConstraint.checked = false
+                this.setState({
+                    tab : tempTab
+                })
+            }
+            tempTab.data.additionalConstraints.generatorSizeConstraint.checked = true
+        }
+        else if (event.target.id === "battery-size-constraint"){
+            if(tempTab.data.additionalConstraints.batterySizeConstraint.checked){
+                tempTab.data.additionalConstraints.batterySizeConstraint.checked = false
+                return this.setState({
+                    tab : tempTab
+                })
+            }
+            tempTab.data.additionalConstraints.batterySizeConstraint.checked = true
+        }
+        else if(event.target.id === "charge-from-solar"){
+            if (tempTab.data.additionalConstraints.chargeFromSolar.checked){
+                tempTab.data.additionalConstraints.chargeFromSolar.checked = false
+                return this.setState({
+                    tab : tempTab
+                })
+            }
+            tempTab.data.additionalConstraints.chargeFromSolar.checked = true
+        }
+
+        return this.setState({
+            tab : tempTab
+        })
+    }
+
+    getSteps(){
+        if (this.state.tab.data.additionalConstraints.step === 0){
+            return(
+                <div className="stepper-content">
+                    <Checkbox id="cost-constraint"  label="Cost Constraint" checked={this.state.tab.data.additionalConstraints.costConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
+                    <Checkbox id="solar-size-constraint"  label="Solar Size Constraint" checked={this.state.tab.data.additionalConstraints.solarSizeConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
+                    <Checkbox id="grid-size-constraint"  label="Grid Size Constraint" checked={this.state.tab.data.additionalConstraints.gridSizeConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
+                    <Checkbox id="generator-size-constraint"  label="Generator Size Constraint" checked={this.state.tab.data.additionalConstraints.generatorSizeConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
+                    <Checkbox id="battery-size-constraint"  label="Battery Size Constraint" checked={this.state.tab.data.additionalConstraints.batterySizeConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
+                    <Checkbox id="charge-from-solar"  label="Charge From Solar" checked={this.state.tab.data.additionalConstraints.chargeFromSolar.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
+                </div>
+            )
+        }
+        else if (this.state.tab.data.additionalConstraints.step === 1){
+            return(
+                <div className="stepper-content">
+
+                </div>
+            )
+        }
+        else if (this.state.tab.data.additionalConstraints.step === 2){
+            return(
+                <div className="stepper-content">
+
+                </div>
+            )
+        }
     }
     getAdditionalConstraints(){
         return (
@@ -706,53 +794,101 @@ class Edit extends Component {
                         <p> Do you have any of the following constraints?</p>
                     </div>
                     <br />
+
+
                     {/*we default to the first step*/}
-                    <Stepper linear={false} activeStep={this.state.tab.data.additionalConstraints.step}>
-                        <Step>
-                            <StepButton onClick={() => {
+
+                    <div className="stepper-container">
+                        <Stepper linear={false} activeStep={this.state.tab.data.additionalConstraints.step}>
+                            <Step>
+                                <StepButton onClick={() => {
+                                    let tempTab = Object.assign({}, this.state.tab)
+                                    tempTab.data.additionalConstraints.step = 0
+                                    this.setState({
+                                        tab : tempTab
+                                    })
+                                }}>
+                                    Additional Constraints
+                                </StepButton>
+                            </Step>
+                            <Step>
+                                <StepButton onClick={() => {
+                                    let tempTab = Object.assign({}, this.state.tab)
+                                    tempTab.data.additionalConstraints.step = 1
+                                    this.setState({
+                                        tab : tempTab
+                                    })
+                                }}>
+                                    More Info
+                                </StepButton>
+                            </Step>
+                            <Step>
+                                <StepButton onClick={() => {
+                                    let tempTab = Object.assign({}, this.state.tab)
+                                    tempTab.data.additionalConstraints.step = 2
+                                    this.setState({
+                                        tab : tempTab
+                                    })
+                                }}>
+                                    Done
+                                </StepButton>
+                            </Step>
+                        </Stepper>
+                        {this.getSteps()}
+                        <div className="center">
+                            <RaisedButton label="Next" primary={true} className="blue-button" onClick={() => {
                                 let tempTab = Object.assign({}, this.state.tab)
-                                tempTab.data.additionalConstraints.step = 0
-                                this.setState({
+
+                                if (tempTab.data.additionalConstraints.step < 2){
+                                    tempTab.data.additionalConstraints.step++
+                                }
+                                else {
+                                    tempTab.constraintsDone = true
+                                }
+
+                                return this.setState({
                                     tab : tempTab
                                 })
-                            }}>
-                                Additional Constraints
-                            </StepButton>
-                        </Step>
-                        <Step>
-                            <StepButton onClick={() => {
-                                let tempTab = Object.assign({}, this.state.tab)
-                                tempTab.data.additionalConstraints.step = 1
-                                this.setState({
-                                    tab : tempTab
-                                })
-                            }}>
-                                More Info
-                            </StepButton>
-                        </Step>
-                        <Step>
-                            <StepButton onClick={() => {
-                                let tempTab = Object.assign({}, this.state.tab)
-                                tempTab.data.additionalConstraints.step = 2
-                                this.setState({
-                                    tab : tempTab
-                                })
-                            }}>
-                                Done
-                            </StepButton>
-                        </Step>
-                    </Stepper>
+
+                            }} />
+                        </div>
+                    </div>
 
                 </div>
             </MuiThemeProvider>
         )
     }
 
-
     //
+    finalizeTab(){
+        return (
+            <MuiThemeProvider muiTheme={muiTheme}>
+                <div className="finalize-changes-container">
+                    <br />
+                    <div className="center">
+                        <h1> Is Everything Correct?</h1>
+                    </div>
+                    <br />
+                    <div className="center">
+                        <p>
+                            the tab data goes here
+                        </p>
+                    </div>
+                    <br />
+                    <div className="center">
+                        <RaisedButton label="Finalize" primary={true} className="blue-button" onClick={() => {
+                            let tempTab = Object.assign({}, this.state.tab)
+                            tempTab.isCompleted = true
+                            return this.setState({
+                                tab : tempTab
+                            })
+                        }}/>
+                    </div>
+                </div>
+            </MuiThemeProvider>
 
-
-
+        )
+    }
 
     // SAVE OR DELETE TAB ======================================================
     discardTab(){
@@ -785,9 +921,11 @@ class Edit extends Component {
       else if (this.state.tab.loadProfileDone && !this.state.tab.constraintsDone){
           return this.getAdditionalConstraints()
       }
-
+      else if (this.state.tab.constraintsDone && !this.state.tab.isCompleted){
+          return this.finalizeTab()
+      }
       return (
-          <h1>  This is the edit view {this.props.hash} {this.state.tab.isNew.toString()}</h1>
+          <h1>  The tab is completed {this.props.hash}</h1>
       )
     }
 }

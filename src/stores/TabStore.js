@@ -108,15 +108,31 @@ class TabStore extends EventEmitter {
               },
               additionalConstraints : {
                 step : 0,
-                costConstraint      : null, // sum(costConstraint) <= x
-                solarSizeConstraint : null, // solar.power <= x
-                gridSizeConstraint  : {     // x <= grid.power <= y
+                costConstraint      : { // sum(costConstraint) <= x
+                    checked : false,
+                    value   : null
+                },
+                solarSizeConstraint : { // solar.power <= x
+                    checked : false,
+                    value   : null
+                },
+                gridSizeConstraint  : {
+                  checked    : false,  // x <= grid.power <= y
                   lowerBound : null,
                   upperBound : null,
                 },
-                generatorSizeConstraint : null, // gen.power <= x
-                batterySizeConstraint   : null, // battery.energy <= x
-                chargeFromSolar         : null, // battery.power <= pv.power
+                generatorSizeConstraint : { // gen.power <= x
+                    checked : false,
+                    value   : null
+                },
+                batterySizeConstraint   : { // battery.energy <= x
+                    checked : false,
+                    value   : null
+                },
+                chargeFromSolar     : { // battery.power <= pv.power
+                    checked : false,
+                    value : null
+                }
               }
             }
         }

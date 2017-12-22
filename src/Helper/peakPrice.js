@@ -21,6 +21,60 @@ export default (thisRef, event, text, tempTab, peak) => {
   }
 
 
+  else if(peak === 'time'){
+    let time = event.target.id.split('-')
+    if (time.length !== 3){
+        console.error("The length of this array should be 3", time)
+    }
+    for (var key in (tempTab.data.peakData.peaks)){
+      if (key === time[2]){
+          console.log(key, time[1])
+          tempTab.data.peakData.peaks[key] = time[1]
+          return thisRef.setState({
+              tab : tempTab
+          })
+      }
+    }
+  }
+
+  else if (peak === "defaultPeakTimes"){
+
+      tempTab.data.peakData.peaks.oneAM = "off"
+      tempTab.data.peakData.peaks.twoAM = "off"
+      tempTab.data.peakData.peaks.threeAM = "off"
+      tempTab.data.peakData.peaks.fourAM = "off"
+      tempTab.data.peakData.peaks.fiveAM = "off"
+      tempTab.data.peakData.peaks.sixAM = "off"
+      tempTab.data.peakData.peaks.sevenAM = "off"
+      tempTab.data.peakData.peaks.eightAM = "off"
+      tempTab.data.peakData.peaks.nineAM = "off"
+      tempTab.data.peakData.peaks.tenAM = "off"
+      tempTab.data.peakData.peaks.elevenAM = "off"
+      tempTab.data.peakData.peaks.twelvePM = "off"
+      tempTab.data.peakData.peaks.onePM = "off"
+      tempTab.data.peakData.peaks.twoPM = "off"
+      tempTab.data.peakData.peaks.threePM = "off"
+      tempTab.data.peakData.peaks.fourPM = "off"
+      tempTab.data.peakData.peaks.fivePM = "off"
+      tempTab.data.peakData.peaks.sixPM = "off"
+      tempTab.data.peakData.peaks.sevenPM = "off"
+      tempTab.data.peakData.peaks.eightPM = "off"
+      tempTab.data.peakData.peaks.ninePM = "off"
+      tempTab.data.peakData.peaks.tenPM = "off"
+      tempTab.data.peakData.peaks.elevenPM = "off"
+      tempTab.data.peakData.peaks.twelveAM = "off"
+
+
+      return thisRef.setState({
+          tab : tempTab
+      })
+
+  }
+
+
+  else {
+      console.log('ERROR, we should not be here', event)
+  }
 }
 
 

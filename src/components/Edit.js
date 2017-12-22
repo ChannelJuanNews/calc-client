@@ -181,15 +181,12 @@ class Edit extends Component {
 
       // if the input was "None of the above", we want to emptu
       // out the array
-
       let tempTab = Object.assign({}, this.state.tab)
 
       if (tech === NOTECH){
-
         if (tempTab.data.existingTech.length === 1 &&  tempTab.data.existingTech[0] === NOTECH){
             return null // do nothing since we already have nothing inside of the array
         }
-
         // if we get here we assume we have tech to delete from the array
         while(tempTab.data.existingTech.length > 0){
             tempTab.data.existingTech.pop() // delete all the other existing tech
@@ -201,7 +198,6 @@ class Edit extends Component {
           // we want to first check to see if we still have a NOTECH string
           // within our array. if we do, we want to delete before we append the
           // new tech
-
           let ind = tempTab.data.existingTech.indexOf(NOTECH)
           if (ind !== -1){
               // the element exists, so we want to get rid of the NOTECH so the
@@ -209,8 +205,6 @@ class Edit extends Component {
               // meaning that we cannot both have no tech and some tech. either some tech or no tech
               tempTab.data.existingTech.splice(ind, 1) // this removes it from the array
           }
-
-
           let index = tempTab.data.existingTech.indexOf(tech)
           if (index !== -1) {
               // the element exists, so we want to remove it from the array
@@ -221,7 +215,6 @@ class Edit extends Component {
               tempTab.data.existingTech.push(tech)
           }
       }
-
       // replace tab state with new tab state
       this.setState({
           tab : tempTab
@@ -297,9 +290,58 @@ class Edit extends Component {
       else if (event.currentTarget.id === "default-peaks"){
         peakPriceHelper(this, event, text, tempTab, 'defaultPeaks')
       }
-      else {
-        console.log('this event is not yet supported', event.currentTarget, event.target)
+      else if (event.target.id.substring(0, 4) === "time"){
+        peakPriceHelper(this, event, text, tempTab, 'time')
       }
+      else if (event.currentTarget.id === "default-peak-times"){
+        peakPriceHelper(this, event, text, tempTab, 'defaultPeakTimes')
+      }
+      else {
+         console.log(event.currentTarget, event.target, event.target.id)
+      }
+    }
+
+    getPeakTimes(peak, time){
+
+        if (peak === "on"){
+            return (
+                <div>
+                    <td align="center">  <Checkbox class="checkbox" id={"time-on-"  + time}  checked={true} onCheck={this.setPeaks.bind(this)} /> </td>
+                    <td align="center">  <Checkbox id={"time-off-" + time} checked={false} onCheck={this.setPeaks.bind(this)} /> </td>
+                    <td align="center">  <Checkbox id={"time-mid-" + time} checked={false} onCheck={this.setPeaks.bind(this)} /> </td>
+                </div>
+
+            )
+        }
+        else if(peak === "off"){
+            return (
+                <div>
+                    <td align="center">  <Checkbox id={"time-on-"  + time} checked={false} onCheck={this.setPeaks.bind(this)} /> </td>
+                    <td align="center">  <Checkbox id={"time-off-" + time} checked={true} onCheck={this.setPeaks.bind(this)} /> </td>
+                    <td align="center">  <Checkbox id={"time-mid-" + time} checked={false} onCheck={this.setPeaks.bind(this)} /> </td>
+                </div>
+            )
+        }
+
+        else if (peak === "mid"){
+            return(
+                <div>
+                    <td align="center">  <Checkbox id={"time-on-"  + time} checked={false} onCheck={this.setPeaks.bind(this)} /> </td>
+                    <td align="center">  <Checkbox id={"time-off-" + time} checked={false} onCheck={this.setPeaks.bind(this)} /> </td>
+                    <td align="center">  <Checkbox id={"time-mid-" + time} checked={true} onCheck={this.setPeaks.bind(this)} /> </td>
+                </div>
+            )
+        }
+        // initialize them all to false
+        else {
+            return (
+                <div>
+                    <td align="center">  <Checkbox id={"time-on-"  + time} checked={false} onCheck={this.setPeaks.bind(this)} /> </td>
+                    <td align="center">  <Checkbox id={"time-off-" + time} checked={false} onCheck={this.setPeaks.bind(this)} /> </td>
+                    <td align="center">  <Checkbox id={"time-mid-" + time} checked={false} onCheck={this.setPeaks.bind(this)} /> </td>
+                </div>
+            )
+        }
 
     }
 
@@ -361,25 +403,195 @@ class Edit extends Component {
                       </div>
                     </div>
 
+                    <br />
 
                     <div className="peak-times-container">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHeaderColumn colSpan="3">
 
-                                    </TableHeaderColumn>
-                                </TableRow>
-                            </TableHeader>
-                        </Table>
+                        <div className="peak-times-table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th> Time </th>
+                                        <th id="th-1"> On Peak </th>
+                                        <th id="th-2"> Off Peak </th>
+                                        <th id="th-3"> Mid Peak </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <br />
+                                    <tr>
+                                        <td align="center"> 1 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.oneAM, "oneAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 2 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.twoAM, "twoAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 3 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.threeAM, "threeAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 4 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.fourAM, "fourAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 5 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.fiveAM, "fiveAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 6 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.sixAM, "sixAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 7 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.sevenAM, "sevenAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 8 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.eightAM, "eightAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 9 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.nineAM, "nineAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 10 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.tenAM, "tenAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 11 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.elevenAM, "elevenAM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 12 P.M. (Noon) </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.twelvePM, "twelvePM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 1 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.onePM, "onePM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 2 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.twoPM, "twoPM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 3 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.threePM, "threePM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 4 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.fourPM, "fourPM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 5 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.fivePM, "fivePM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 6 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.sixPM, "sixPM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 7 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.sevenPM, "sevenPM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 8 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.eightPM, "eightPM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 9 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.ninePM, "ninePM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 10 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.tenPM, "tenPM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 11 P.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.elevenPM, "elevenPM").props.children }
+                                    </tr>
+                                    <tr>
+                                        <td align="center"> 12 A.M. </td>
+                                        { this.getPeakTimes(this.state.tab.data.peakData.peaks.twelveAM, "twelveAM").props.children }
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
                     </div>
+                    <br />
+                    <div className="center default-peak-times-container">
+                        <RaisedButton className="blue-button" id="default-peak-times" label="Use Defaults" primary={true} onClick={this.setPeaks.bind(this)} />
+                    </div>
+                    <br />
+                    <br />
+                    <div className="center next-button-container">
+                        <RaisedButton className="blue-button" id="next-button-container" label="Next" primary={true} onClick={ () => {
+                            let tempTab = Object.assign({}, this.state.tab)
+                            if (
 
+                                tempTab.data.peakData.peaks.oneAM !== null &&
+                                tempTab.data.peakData.peaks.twoAM !== null &&
+                                tempTab.data.peakData.peaks.threeAM !== null &&
+                                tempTab.data.peakData.peaks.fourAM !== null &&
+                                tempTab.data.peakData.peaks.fiveAM !== null &&
+                                tempTab.data.peakData.peaks.sixAM !== null &&
+                                tempTab.data.peakData.peaks.sevenAM !== null &&
+                                tempTab.data.peakData.peaks.eightAM !== null &&
+                                tempTab.data.peakData.peaks.nineAM !== null &&
+                                tempTab.data.peakData.peaks.tenAM !== null &&
+                                tempTab.data.peakData.peaks.elevenAM !== null &&
+                                tempTab.data.peakData.peaks.twelvePM !== null &&
+                                tempTab.data.peakData.peaks.onePM !== null &&
+                                tempTab.data.peakData.peaks.twoPM !== null &&
+                                tempTab.data.peakData.peaks.threePM !== null &&
+                                tempTab.data.peakData.peaks.fourPM !== null &&
+                                tempTab.data.peakData.peaks.fivePM !== null &&
+                                tempTab.data.peakData.peaks.sixPM !== null &&
+                                tempTab.data.peakData.peaks.sevenPM !== null &&
+                                tempTab.data.peakData.peaks.eightPM !== null &&
+                                tempTab.data.peakData.peaks.ninePM !== null &&
+                                tempTab.data.peakData.peaks.tenPM !== null &&
+                                tempTab.data.peakData.peaks.elevenPM !== null &&
+                                tempTab.data.peakData.peaks.twelveAM !== null &&
+                                tempTab.data.peakData.onPeakPrice !== "" &&
+                                tempTab.data.peakData.offPeakPrice !== "" &&
+                                tempTab.data.peakData.midPeakPrice !== ""
+                            ) {
+                                tempTab.peaksDone = true
+                                return this.setState({
+                                    tab : tempTab
+                                })
+                            }
+                            else {
+                                return alert("Please fill in all inputs")
+                            }
+                        }} />
+                    </div>
 
                 </div>
             </MuiThemeProvider>
         )
 
     }
+
+    setLoadData(){
+
+    }
+    getLoadData(){
+        return(
+            <MuiThemeProvider muiTheme={muiTheme}>
+                <div class="load-data-container">
+
+                </div>
+            </MuiThemeProvider>
+        )
+    }
+
+
+
     // SAVE OR DELETE TAB ======================================================
     discardTab(){
 
@@ -402,9 +614,13 @@ class Edit extends Component {
       else if (this.state.tab.objectivesDone && !this.state.tab.existingTechDone){
         return this.getExistingTech()
       }
-      else if (this.state.tab.existingTechDone){
+      else if (this.state.tab.existingTechDone && !this.state.tab.peaksDone){
         return this.getPeaks()
       }
+      else if (this.state.tab.peaksDone && !this.state.tab.constraintsDone){
+          return this.getLoadData()
+      }
+
 
         return (
             <h1>  This is the edit view {this.props.hash} {this.state.tab.isNew.toString()}</h1>

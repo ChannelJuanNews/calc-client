@@ -10,8 +10,14 @@ import {
     FontIcon,
     Checkbox,
     RaisedButton,
-    TimePicker,
-    TextField
+    TextField,
+    Table,
+    TableBody,
+    TableFooter,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn
 }  from 'material-ui'
 
 import { MuiThemeProvider, getMuiTheme }from 'material-ui/styles'
@@ -138,8 +144,9 @@ class Edit extends Component {
                     <Checkbox label="Peak shaving" checked={ ( () => {if (this.state.tab.data.objectives.indexOf(PEAKSHAVING) === -1){return false}; return true} )() } onCheck={ () => {this.setObjectives(PEAKSHAVING)} } />
                   </div>
                 </div>
+                <br />
                 <div className="center">
-                  <RaisedButton className="center" label="Next" primary={true} onClick={ () => {
+                  <RaisedButton className="center blue-button" label="Next" primary={true} onClick={ () => {
 
                     /*
                     this.state.tab.isNew = false
@@ -250,8 +257,13 @@ class Edit extends Component {
             <br />
 
             <div className="center">
-              <RaisedButton className="center" label="Next" primary={true} onClick={ () => {
+              <RaisedButton className="center blue-button" label="Next" primary={true} onClick={ () => {
                   console.log('this is where we would go from next')
+
+                  if (this.state.tab.data.existingTech.length === 0){
+                      return alert("Please check at least one")
+                  }
+
                   let tempTab = Object.assign({}, this.state.tab)
                   tempTab.existingTechDone = true
                   this.setState({
@@ -270,6 +282,7 @@ class Edit extends Component {
     setPeaks(event, text) {
 
 
+
       let tempTab = Object.assign({}, this.state.tab)
 
       if (event.target.id === "on-peak-rate-input"){
@@ -281,9 +294,11 @@ class Edit extends Component {
       else if(event.target.id === "mid-peak-rate-input"){
         peakPriceHelper(this, event, text, tempTab, 'midPeak')
       }
-
-      else if (event.target.id === "something else"){
-        console.log('this is currently not supported')
+      else if (event.currentTarget.id === "default-peaks"){
+        peakPriceHelper(this, event, text, tempTab, 'defaultPeaks')
+      }
+      else {
+        console.log('this event is not yet supported', event.currentTarget, event.target)
       }
 
     }
@@ -307,12 +322,11 @@ class Edit extends Component {
                                 <h3 className="center">
                                     On Peak
                                 </h3>
+                                <hr />
                                 <br />
-                                <label className="center">Start Time</label>
-                                <div className="on-peak-rate center">
-
-                                  <TextField id="on-peak-rate-input" value={  this.state.tab.data.peakData.onPeakPrice  }  hintText="e.g. $7" onChange={this.setPeaks.bind(this)}/>
-
+                                <label className="center">On Peak Rate ($/kWh)</label>
+                                <div className="on-peak-rate peak-rate center">
+                                  <TextField id="on-peak-rate-input" value={  this.state.tab.data.peakData.onPeakPrice  }  hintText="e.g. $0.12" onChange={this.setPeaks.bind(this)} style={{ textColor : "red"}}/>
                                 </div>
 
                             </div>
@@ -320,28 +334,46 @@ class Edit extends Component {
                                 <h3 className="center">
                                     Off Peak
                                 </h3>
-                                <div className="off-peak-time">
-
+                                <hr />
+                                <br />
+                                <label className="center">Off Peak Rate ($/kWh)</label>
+                                <div className="off-peak-rate peak-rate center">
+                                    <TextField id="off-peak-rate-input" value={  this.state.tab.data.peakData.offPeakPrice  }  hintText="e.g. $0.12" onChange={this.setPeaks.bind(this)}/>
                                 </div>
                             </div>
                             <div className="bit-33">
                                 <h3 className="center">
                                     Mid Peak
                                 </h3>
-                                <div className="mid-peak-time center">
-
+                                <hr />
+                                <br />
+                                <label className="center">Mid Peak Rate ($/kWh)</label>
+                                <div className="mid-peak-rate peak-rate center">
+                                    <TextField id="mid-peak-rate-input" value={  this.state.tab.data.peakData.midPeakPrice  }  hintText="e.g. $0.12" onChange={this.setPeaks.bind(this)}/>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <br />
                     <div className="default-buttons-container">
                       <div className="center">
-                        <RaisedButton label="Default Time-of-use" primary={true} onClick={ () => {
-                            // somehow set the time of use rates to a default
-                        }}/>
+                        <RaisedButton className="blue-button" id="default-peaks" label="Use Defaults" primary={true} onClick={this.setPeaks.bind(this)}/>
                       </div>
                     </div>
+
+
+                    <div className="peak-times-container">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHeaderColumn colSpan="3">
+
+                                    </TableHeaderColumn>
+                                </TableRow>
+                            </TableHeader>
+                        </Table>
+                    </div>
+
 
                 </div>
             </MuiThemeProvider>

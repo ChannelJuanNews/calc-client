@@ -41,7 +41,8 @@
   color : white;
   text-align: center;
   background-color: #0075BF;
-  height: 5vh;
+  padding-top: 1vh;
+  padding-bottom : 3vh;
 }
 
 .curtitle {
@@ -107,8 +108,8 @@
 .bit-33 {
 
     width:33.33%;
-    background-color: red;
-    border-style: solid;
+
+    border: groove 3px black;
     border-color: black;
 
 }
@@ -127,7 +128,19 @@
   color : green;
 }
 
+/* enable highlighting when selecting a text input*/
+.peak-rate div:nth-child(3) hr:nth-child(2){
+    background-color: #FFC03C !important;
+    border-top: none rgb(255,192,60) !important;
+    border-left: none rgb(255,192,60) !important;
+    border-right: rgb(255,192,60) !important;
+    border-bottom: 2px solid rgb(255,192,60) !important;
+}
 
+
+.blue-button div{
+    background-color: #0075BF
+}
 
 /*base tablet to small desktop styles*/
 @media (min-width: 800px) and (max-width: 1100px) {

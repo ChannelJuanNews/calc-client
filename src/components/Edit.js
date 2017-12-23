@@ -28,7 +28,9 @@ import { MuiThemeProvider, getMuiTheme }from 'material-ui/styles'
 import Icons from "./Icons"
 import ReactDataSheet from 'react-datasheet';
 
-import peakPriceHelper from "../Helper/peakPrice"
+import peakPriceHelper    from "../Helper/peakPrice"
+import existingTechHelper from "../Helper/existingTech"
+
 
 
 
@@ -184,18 +186,14 @@ class Edit extends Component {
     // EXISTING TECH ===========================================================
     setExistingTech(tech, text){
 
+        // if the input was "None of the above", we want to emptu
+        // out the array
+        let tempTab = Object.assign({}, this.state.tab)
 
-
+        // there is a target if there is a text field input
         if (tech.target){
-            if (tech.target.id === "existing-generator-input"){
-                console.log(text)
-            }
+            existingTechHelper(this, tech, text)
         }
-
-      // if the input was "None of the above", we want to emptu
-      // out the array
-      let tempTab = Object.assign({}, this.state.tab)
-
 
       if (tech === NOTECH){
 
@@ -361,19 +359,19 @@ class Edit extends Component {
                           }
                       }
                       if (this.state.tab.data.existingTech.solar.exists){
-                          if (this.state.tab.existingTech.solar.location === "" || this.state.tab.existingTech.solar.power === ""){
+                          if (this.state.tab.data.existingTech.solar.location === "" || this.state.tab.data.existingTech.solar.power === ""){
                               return alert("Please fill in all inputs")
                           }
                       }
-                      if(this.state.tabdata.existingTech.battery.exists){
-                          if(this.state.tab.data.existingTech.battery.power === "" || this.state.tab.existingTech.battery.energy === ""){
+                      if(this.state.tab.data.existingTech.battery.exists){
+                          if(this.state.tab.data.existingTech.battery.power === "" || this.state.tab.data.existingTech.battery.energy === ""){
                               return alert("Please fill in all inputs")
                           }
                       }
 
                       // if we made it here, we are good to go
                       let tempTab = Object.assign({}, this.state.tab)
-                      tempTab.data.existingTechDone = true
+                      tempTab.existingTechDone = true
                       return this.setState({
                           tab : tempTab
                       })

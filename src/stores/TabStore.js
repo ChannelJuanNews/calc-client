@@ -34,7 +34,26 @@ class TabStore extends EventEmitter {
             constraintsDone     : false,
             data            : {
               objectives    : [],
-              existingTech  : [],
+              existingTech  : {
+
+                  step : 0,
+
+                  generator : {
+                      exists : false,
+                      size   : ""
+                  },
+                  solar : {
+                      exists   : false,
+                      location : "",
+                      power    : ""
+                  },
+                  battery : {
+                      exists : false,
+                      power  : "",
+                      energy : ""
+                  },
+                  none : false
+              },
               peakData : {
                 onPeakPrice  : "",
                 offPeakPrice : "",

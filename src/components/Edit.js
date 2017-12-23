@@ -21,6 +21,7 @@ import {
     Step,
     Stepper,
     StepButton,
+    StepLabel
 }  from 'material-ui'
 
 import { MuiThemeProvider, getMuiTheme }from 'material-ui/styles'
@@ -181,42 +182,43 @@ class Edit extends Component {
     }
 
     // EXISTING TECH ===========================================================
-    setExistingTech(tech){
+    setExistingTech(tech, text){
+
+
+
+        if (tech.target){
+            if (tech.target.id === "existing-generator-input"){
+                console.log(text)
+            }
+        }
 
       // if the input was "None of the above", we want to emptu
       // out the array
       let tempTab = Object.assign({}, this.state.tab)
 
+
       if (tech === NOTECH){
-        if (tempTab.data.existingTech.length === 1 &&  tempTab.data.existingTech[0] === NOTECH){
-            return null // do nothing since we already have nothing inside of the array
-        }
-        // if we get here we assume we have tech to delete from the array
-        while(tempTab.data.existingTech.length > 0){
-            tempTab.data.existingTech.pop() // delete all the other existing tech
-        }
-        tempTab.data.existingTech.push(NOTECH) // put the no tech on there
+
+          tempTab.data.existingTech.generator.exists = false,
+          tempTab.data.existingTech.solar.exists = false,
+          tempTab.data.existingTech.battery.exists = false,
+          tempTab.data.existingTech.none = true
+
       }
       else {
+          // we want to set the no tech flag to false if we do have tech
+          if (tempTab.data.existingTech.none){
+              tempTab.data.existingTech.none = false
+          }
 
-          // we want to first check to see if we still have a NOTECH string
-          // within our array. if we do, we want to delete before we append the
-          // new tech
-          let ind = tempTab.data.existingTech.indexOf(NOTECH)
-          if (ind !== -1){
-              // the element exists, so we want to get rid of the NOTECH so the
-              // checkmark doesn't show because the checkmarks are mutually exclusive
-              // meaning that we cannot both have no tech and some tech. either some tech or no tech
-              tempTab.data.existingTech.splice(ind, 1) // this removes it from the array
+          if (tech === GENERATOR){
+              tempTab.data.existingTech.generator.exists = !tempTab.data.existingTech.generator.exists
           }
-          let index = tempTab.data.existingTech.indexOf(tech)
-          if (index !== -1) {
-              // the element exists, so we want to remove it from the array
-              tempTab.data.existingTech.splice(index, 1)
+          else if(tech === SOLAR){
+              tempTab.data.existingTech.solar.exists = !tempTab.data.existingTech.solar.exists
           }
-          else {
-              // the element is not in the array so we want to append to array
-              tempTab.data.existingTech.push(tech)
+          else if (tech === BATTERIES){
+              tempTab.data.existingTech.battery.exists = !tempTab.data.existingTech.battery.exists
           }
       }
       // replace tab state with new tab state
@@ -225,6 +227,89 @@ class Edit extends Component {
       })
 
     }
+
+    getExistingTechContent(){
+        if (this.state.tab.data.existingTech.step === 0){
+            return (
+
+                    <div className="frame">
+                      <div className="bit-100">
+                        <Checkbox label="Generator"  checked={ this.state.tab.data.existingTech.generator.exists } onCheck={ () => {console.log("THERE IS A CHECK"); this.setExistingTech(GENERATOR) } } />
+                      </div>
+                      <div className="bit-100">
+                        <Checkbox label="Solar panel" checked={ this.state.tab.data.existingTech.solar.exists }  onCheck={ () => {this.setExistingTech(SOLAR) } } />
+                      </div>
+                      <div className="bit-100">
+                        <Checkbox label="Battery"  checked={ this.state.tab.data.existingTech.battery.exists } onCheck={ () => {this.setExistingTech(BATTERIES) } } />
+                      </div>
+                      <div className="bit-100">
+                        <Checkbox label="None of the above" checked={ this.state.tab.data.existingTech.none }  onCheck={ () => {this.setExistingTech(NOTECH) } } />
+                      </div>
+                    </div>
+
+
+            )
+        }
+        else if (this.state.tab.data.existingTech.step === 1){
+
+            let inputs = []
+
+            if(this.state.tab.data.existingTech.generator.exists){
+                inputs.push(
+
+                    <div className="box">
+                        <label className="center">Input Generator Size (kW)</label>
+                        <div className="center peak-rate">
+                            <TextField  className="center" id="existing-generator-input" value={this.state.tab.data.existingTech.generator.size} onChange={this.setExistingTech.bind(this)}/>
+                        </div>
+                    </div>
+                )
+            }
+
+            if (this.state.tab.data.existingTech.solar.exists){
+                inputs.push(
+                    <div className="box">
+                        <label className="center">Input Solar Location (Zip Code)</label>
+                        <div className="center peak-rate">
+                            <TextField id="existing-solar-input-zip" value={this.state.tab.data.existingTech.solar.location} onChange={this.setExistingTech.bind(this)}/>
+                        </div>
+
+                        <label className="center">Input Solar Size (kW)</label>
+                        <div className="center peak-rate">
+                            <TextField id="existing-solar-input-size" value={this.state.tab.data.existingTech.solar.power} onChange={this.setExistingTech.bind(this)}/>
+                        </div>
+                    </div>
+                )
+            }
+
+            if (this.state.tab.data.existingTech.battery.exists){
+                inputs.push(
+                    <div className="box">
+                        <label className="center">Input Battery Power (kW) </label>
+                        <div className="center">
+                            <TextField id="existing-battery-input-power" value={this.state.tab.data.existingTech.battery.power} onChange={this.setExistingTech.bind(this)}/>
+                        </div>
+                        <label className="center">Input Battery Energy (kW) </label>
+                        <div className="center">
+                            <TextField id="existing-battery-input-energy" value={this.state.tab.data.existingTech.battery.energy} onChange={this.setExistingTech.bind(this)}/>
+                        </div>
+                    </div>
+                )
+            }
+
+            return(
+            <div className="existing-tech-inputs-container">
+                {
+                    inputs.map( (textfields) => {
+                        return textfields
+                    })
+                }
+            </div>
+
+            )
+        }
+    }
+
 
     getExistingTech(){
       return(
@@ -236,36 +321,71 @@ class Edit extends Component {
             </div>
             <br />
 
-            <div className="frame">
-              <div className="bit-100">
-                <Checkbox label="Generator"  checked={ ( () => {if (this.state.tab.data.existingTech.indexOf(GENERATOR) === -1){return false}; return true} )() } onCheck={ () => {console.log("THERE IS A CHECK"); this.setExistingTech(GENERATOR) } } />
-              </div>
-              <div className="bit-100">
-                <Checkbox label="Solar panels" checked={ ( () => {if (this.state.tab.data.existingTech.indexOf(SOLAR) === -1){return false}; return true} )() } onCheck={ () => {this.setExistingTech(SOLAR) } } />
-              </div>
-              <div className="bit-100">
-                <Checkbox label="Batteries"  checked={ ( () => {if (this.state.tab.data.existingTech.indexOf(BATTERIES) === -1){return false}; return true} )() } onCheck={ () => {this.setExistingTech(BATTERIES) } } />
-              </div>
-              <div className="bit-100">
-                <Checkbox label="None of the above" checked={ ( () => {if (this.state.tab.data.existingTech.indexOf(NOTECH) === -1){return false}; return true} )() }  onCheck={ () => {this.setExistingTech(NOTECH) } } />
-              </div>
+            <div className="stepper-container-2">
+                <Stepper activeStep={this.state.tab.data.existingTech.step}>
+                    <Step>
+                        <StepLabel> Select Existing</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel> Input Existing Details</StepLabel>
+                    </Step>
+                </Stepper>
             </div>
+
+
+            {this.getExistingTechContent()}
+
 
             <br />
 
             <div className="center">
               <RaisedButton className="center blue-button" label="Next" primary={true} onClick={ () => {
-                  console.log('this is where we would go from next')
 
-                  if (this.state.tab.data.existingTech.length === 0){
-                      return alert("Please check at least one")
+                  if (this.state.tab.data.existingTech.none === false && this.state.tab.data.existingTech.generator.exists === false && this.state.tab.data.existingTech.solar.exists === false && this.state.tab.data.existingTech.battery === false){
+                      return alert('Please select at least one')
                   }
 
-                  let tempTab = Object.assign({}, this.state.tab)
-                  tempTab.existingTechDone = true
-                  this.setState({
-                    tab : tempTab
-                  })
+                  if (this.state.tab.data.existingTech.none === true){
+
+                      let tempTab = Object.assign({}, this.state.tab)
+                      tempTab.existingTechDone = true
+                      this.setState({
+                        tab : tempTab
+                      })
+                  }
+                  else if (this.state.tab.data.existingTech.step === 1){
+                      // validate the inputs
+                      if (this.state.tab.data.existingTech.generator.exists){
+                          if (this.state.tab.data.existingTech.generator.size === ""){
+                              return alert("Please fill in all inputs")
+                          }
+                      }
+                      if (this.state.tab.data.existingTech.solar.exists){
+                          if (this.state.tab.existingTech.solar.location === "" || this.state.tab.existingTech.solar.power === ""){
+                              return alert("Please fill in all inputs")
+                          }
+                      }
+                      if(this.state.tabdata.existingTech.battery.exists){
+                          if(this.state.tab.data.existingTech.battery.power === "" || this.state.tab.existingTech.battery.energy === ""){
+                              return alert("Please fill in all inputs")
+                          }
+                      }
+
+                      // if we made it here, we are good to go
+                      let tempTab = Object.assign({}, this.state.tab)
+                      tempTab.data.existingTechDone = true
+                      return this.setState({
+                          tab : tempTab
+                      })
+
+                  }
+                  else {
+                      let tempTab = Object.assign({}, this.state.tab)
+                      tempTab.data.existingTech.step ++
+                      return this.setState({
+                          tab : tempTab
+                      })
+                  }
 
               } } />
             </div>

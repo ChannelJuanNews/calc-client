@@ -32,6 +32,7 @@ class TabStore extends EventEmitter {
             peaksDone           : false,
             loadProfileDone     : false,
             constraintsDone     : false,
+            isSubmitting        : false,
             data            : {
               objectives    : [],
               existingTech  : {

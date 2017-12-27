@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link, withRouter} from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import * as TabActions from "../actions/TabActions"
 import TabStore from '../stores/TabStore'
@@ -21,17 +21,16 @@ import {
     Step,
     Stepper,
     StepButton,
-    StepLabel
+    StepLabel,
+    CircularProgress
 }  from 'material-ui'
 
-import { MuiThemeProvider, getMuiTheme }from 'material-ui/styles'
+import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles'
 import Icons from "./Icons"
 import ReactDataSheet from 'react-datasheet';
 
 import peakPriceHelper    from "../Helper/peakPrice"
 import existingTechHelper from "../Helper/existingTech"
-
-
 
 
 const muiTheme = getMuiTheme({
@@ -287,7 +286,7 @@ class Edit extends Component {
                         <div className="center">
                             <TextField id="existing-battery-input-power" value={this.state.tab.data.existingTech.battery.power} onChange={this.setExistingTech.bind(this)}/>
                         </div>
-                        <label className="center">Input Battery Energy (kW) </label>
+                        <label className="center">Input Battery Energy (kwHr) </label>
                         <div className="center">
                             <TextField id="existing-battery-input-energy" value={this.state.tab.data.existingTech.battery.energy} onChange={this.setExistingTech.bind(this)}/>
                         </div>
@@ -1254,7 +1253,8 @@ class Edit extends Component {
                     <div className="center">
                         <RaisedButton label="Finalize" primary={true} className="blue-button" onClick={() => {
                             let tempTab = Object.assign({}, this.state.tab)
-                            tempTab.isCompleted = true
+                            tempTab.isCompleted  = true
+                            tempTab.isSubmitting = true
                             return this.setState({
                                 tab : tempTab
                             })
@@ -1271,8 +1271,52 @@ class Edit extends Component {
 
     }
 
-    saveTabToServer(){
 
+    showLoadingBar(){
+      return (
+        <MuiThemeProvider muiTheme={muiTheme}>
+            <div>
+                <div className="container center">
+                    <CircularProgress size={80} thickness={5} color={"#0075BF"}  />
+                </div>
+                <br />
+                <div className="center">
+                    <p>
+                      Calculating...
+                    </p>
+                </div>
+            </div>
+        </MuiThemeProvider>
+      )
+    }
+    saveTabToServer(){
+      let hash = window.location.href.split('/')[window.location.href.split('/').length - 1]
+
+      fetch('/api/' + hash, {
+        method  : 'POST',
+        body    : JSON.stringify(TabStore.getTab(hash)),
+        headers : {
+          "Content-Type" : "application/json"
+        }
+      }).then( (response) => {
+          response.json().then( (data) => {
+            console.log(data)
+            if (data.error){
+              // error handling here
+            }
+            else {
+              // do something with the data
+            }
+
+            let tempTab = Object.assign({}, this.state.tab)
+            tempTab.isSubmitting = false
+            return this.setState({
+              tab : tempTab
+            })
+          })
+      }).catch( (error) => {
+        console.log("Error: ", error)
+      })
     }
 
 
@@ -1281,6 +1325,10 @@ class Edit extends Component {
       // make sure the tab tab exists
       if (!this.state.tab){
         return null
+      }
+      if(this.state.tab.isSubmitting){
+        this.saveTabToServer()
+        return this.showLoadingBar()
       }
       if (this.state.tab.isNew){
           return this.getObjectives()
@@ -1301,7 +1349,7 @@ class Edit extends Component {
           return this.finalizeTab()
       }
       return (
-          <h1>  The tab is completed {this.props.hash}</h1>
+          <h1>  The tab is completed {this.props.hash} </h1>
       )
     }
 }

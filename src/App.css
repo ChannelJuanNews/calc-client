@@ -139,7 +139,7 @@
 }
 
 
-.blue-button div{
+.blue-button div {
     background-color: #0075BF
 }
 
@@ -236,6 +236,10 @@ th {
     border: 1px solid black;
     margin-left: 1vw;
     margin-right: 1vw;
+}
+
+#existing-battery-input-energy{
+
 }
 
 /*base tablet to small desktop styles*/

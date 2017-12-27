@@ -2,12 +2,25 @@ export default (thisRef, event, text, tempTab, peak) => {
   console.log(thisRef)
 
   if (peak === 'onPeak') {
+
+    tempTab.data.peakData.onPeakPrice = text
+    return thisRef.setState({
+        tab : tempTab
+    })
     onPeak(thisRef, event, text, tempTab)
   }
   else if(peak === 'offPeak'){
+    tempTab.data.peakData.offPeakPrice = text
+    return thisRef.setState({
+        tab : tempTab
+    })
     offPeak(thisRef, event, text, tempTab)
   }
   else if(peak === 'midPeak'){
+    tempTab.data.peakData.midPeakPrice = text
+    return thisRef.setState({
+        tab : tempTab
+    })
     midPeak(thisRef, event, text, tempTab)
   }
   else if(peak === 'defaultPeaks'){
@@ -19,6 +32,36 @@ export default (thisRef, event, text, tempTab, peak) => {
           tab : tempTab
       })
   }
+
+  else if (peak === "defaultDemandPrices"){
+      tempTab.data.peakData.demandOnPeakPrice = "$6.88"
+      tempTab.data.peakData.demandOffPeakPrice = "$1.31"
+      tempTab.data.peakData.demandMidPeakPrice = "$2.74"
+
+      return thisRef.setState({
+          tab : tempTab
+      })
+  }
+
+  else if (peak === "demandOnPeak"){
+     tempTab.data.peakData.demandOnPeakPrice = text
+     return thisRef.setState({
+         tab : tempTab
+     })
+  }
+  else if (peak === "demandOffPeak"){
+     tempTab.data.peakData.demandOffPeakPrice = text
+     return thisRef.setState({
+         tab : tempTab
+     })
+  }
+  else if (peak === "demandMidPeak"){
+     tempTab.data.peakData.demandMidPeakPrice = text
+     return thisRef.setState({
+         tab : tempTab
+     })
+  }
+
 
 
   else if(peak === 'time'){
@@ -46,22 +89,22 @@ export default (thisRef, event, text, tempTab, peak) => {
       tempTab.data.peakData.peaks.fiveAM = "off"
       tempTab.data.peakData.peaks.sixAM = "off"
       tempTab.data.peakData.peaks.sevenAM = "off"
-      tempTab.data.peakData.peaks.eightAM = "off"
-      tempTab.data.peakData.peaks.nineAM = "off"
-      tempTab.data.peakData.peaks.tenAM = "off"
-      tempTab.data.peakData.peaks.elevenAM = "off"
-      tempTab.data.peakData.peaks.twelvePM = "off"
-      tempTab.data.peakData.peaks.onePM = "off"
-      tempTab.data.peakData.peaks.twoPM = "off"
-      tempTab.data.peakData.peaks.threePM = "off"
-      tempTab.data.peakData.peaks.fourPM = "off"
-      tempTab.data.peakData.peaks.fivePM = "off"
-      tempTab.data.peakData.peaks.sixPM = "off"
-      tempTab.data.peakData.peaks.sevenPM = "off"
-      tempTab.data.peakData.peaks.eightPM = "off"
-      tempTab.data.peakData.peaks.ninePM = "off"
-      tempTab.data.peakData.peaks.tenPM = "off"
-      tempTab.data.peakData.peaks.elevenPM = "off"
+      tempTab.data.peakData.peaks.eightAM = "mid"
+      tempTab.data.peakData.peaks.nineAM = "mid"
+      tempTab.data.peakData.peaks.tenAM = "mid"
+      tempTab.data.peakData.peaks.elevenAM = "mid"
+      tempTab.data.peakData.peaks.twelvePM = "on"
+      tempTab.data.peakData.peaks.onePM = "on"
+      tempTab.data.peakData.peaks.twoPM = "on"
+      tempTab.data.peakData.peaks.threePM = "on"
+      tempTab.data.peakData.peaks.fourPM = "on"
+      tempTab.data.peakData.peaks.fivePM = "on"
+      tempTab.data.peakData.peaks.sixPM = "on"
+      tempTab.data.peakData.peaks.sevenPM = "mid"
+      tempTab.data.peakData.peaks.eightPM = "mid"
+      tempTab.data.peakData.peaks.ninePM = "mid"
+      tempTab.data.peakData.peaks.tenPM = "mid"
+      tempTab.data.peakData.peaks.elevenPM = "mid"
       tempTab.data.peakData.peaks.twelveAM = "off"
 
       return thisRef.setState({

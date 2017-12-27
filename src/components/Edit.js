@@ -418,8 +418,17 @@ class Edit extends Component {
       else if (event.currentTarget.id === "default-peak-times"){
         peakPriceHelper(this, event, text, tempTab, 'defaultPeakTimes')
       }
-      else if (event.targe.id === "demand-input-on-peak"){
-
+      else if (event.currentTarget.id === "default-demand-rates"){
+          peakPriceHelper(this, event, text, tempTab, 'defaultDemandPrices')
+      }
+      else if (event.target.id === "demand-input-on-peak"){
+          peakPriceHelper(this, event, text, tempTab, 'demandOnPeak')
+      }
+      else if (event.target.id === "demand-input-off-peak"){
+          peakPriceHelper(this, event, text, tempTab, 'demandOffPeak')
+      }
+      else if (event.target.id === "demand-input-mid-peak"){
+          peakPriceHelper(this, event, text, tempTab, 'demandMidPeak')
       }
       else {
          console.log(event.currentTarget, event.target, event.target.id)
@@ -470,20 +479,22 @@ class Edit extends Component {
 
     }
 
-    getPeaks(){
 
-        return(
-            <MuiThemeProvider muiTheme={muiTheme}>
-                <div className="animated zoomIn">
+    getPeakStep(){
+
+        if (this.state.tab.data.peakData.step === 0){
+            return(
+
+                <div>
                     <br />
-
                     <div className="center">
-                        <h1>Enter Your Energy Charge Rates</h1>
+                        <h2>Enter Your Energy Charge Rates</h2>
                     </div>
 
                     <br />
+                    <br />
 
-                    <div className="time-of-use-container center">
+                    <div className="energy-rate-container center">
                         <div className="frame">
                             <div className="bit-33">
                                 <h3 className="center">
@@ -527,59 +538,85 @@ class Edit extends Component {
                         <RaisedButton className="blue-button" id="default-peaks" label="Use Defaults" primary={true} onClick={this.setPeaks.bind(this)}/>
                       </div>
                     </div>
-
                     <br />
+                    <br />
+                </div>
+
+            )
+        }
+
+        else if (this.state.tab.data.peakData.step === 1){
+            return(
 
 
-                    <div className="demand-charge-container">
-                      <div className="center">
-                        <h1>
-                          Please Enter Your Demand Charge Rates
-                        </h1>
-                      </div>
-                      <br />
-                      <div className="demand-charge-rates-container">
-                        <div className="frame">
-                          <div className="bit-33">
-                            <h3 className="center">
-                                On Peak
-                            </h3>
-                            <hr />
-                            <br />
-                            <label className="center">Demand Rate ($/kWh)</label>
-                            <div className="center">
-                              <TextField id="demand-input-on-peak peak-rate" value={this.state.tab.data.peakData.demandOnPeakPrice} hintText="e.g. $12.89" onChange={this.setPeaks.bind(this)} />
-                            </div>
-                          </div>
-                          <div className="bit-33">
-                            <h3 className="center">
-                                On Peak
-                            </h3>
-                            <hr />
-                            <br />
-                            <label className="center">Demand Rate ($/kWh)</label>
-                            <div className="center">
-                              <TextField id="demand-input-off-peak peak-rate" value={this.state.tab.data.peakData.demandOnPeakPrice} hintText="e.g. $12.89" onChange={this.setPeaks.bind(this)} />
-                            </div>
-                          </div>
 
-                          <div className="bit-33">
-                            <h3 className="center">
-                                On Peak
-                            </h3>
-                            <hr />
-                            <br />
-                            <label className="center">Demand Rate ($/kWh)</label>
-                            <div className="center">
-                              <TextField id="demand-input-mid-peak peak-rate" value={this.state.tab.data.peakData.demandOnPeakPrice} hintText="e.g. $12.89" onChange={this.setPeaks.bind(this)} />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
+                <div>
+                    <br />
+                    <div className="center">
+                        <h2>Enter Your Energy Charge Rates</h2>
                     </div>
 
+                    <br />
+                    <br />
 
+                    <div className="demand-rate-container center">
+                        <div className="frame">
+                            <div className="bit-33">
+                                <h3 className="center">
+                                    On Peak
+                                </h3>
+                                <hr />
+                                <br />
+                                <label className="center">Demand Rate</label>
+                                <div className="on-peak-rate peak-rate center">
+                                  <TextField id="demand-input-on-peak" value={  this.state.tab.data.peakData.demandOnPeakPrice  }  hintText="e.g. $0.12" onChange={this.setPeaks.bind(this)} style={{ textColor : "red"}}/>
+                                </div>
+
+                            </div>
+                            <div className="bit-33">
+                                <h3 className="center">
+                                    Off Peak
+                                </h3>
+                                <hr />
+                                <br />
+                                <label className="center"> Demand Rate</label>
+                                <div className="off-peak-rate peak-rate center">
+                                    <TextField id="demand-input-off-peak" value={  this.state.tab.data.peakData.demandOffPeakPrice  }  hintText="e.g. $0.12" onChange={this.setPeaks.bind(this)}/>
+                                </div>
+                            </div>
+                            <div className="bit-33">
+                                <h3 className="center">
+                                    Mid Peak
+                                </h3>
+                                <hr />
+                                <br />
+                                <label className="center"> Energy Rate</label>
+                                <div className="mid-peak-rate peak-rate center">
+                                    <TextField id="demand-input-mid-peak" value={  this.state.tab.data.peakData.demandMidPeakPrice }  hintText="e.g. $0.12" onChange={this.setPeaks.bind(this)}/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="default-buttons-container">
+                      <div className="center">
+                        <RaisedButton className="blue-button" id="default-demand-rates" label="Use Defaults" primary={true} onClick={this.setPeaks.bind(this)}/>
+                      </div>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+
+            )
+        }
+
+        else if (this.state.tab.data.peakData.step === 2){
+            return (
+
+                <div>
+                    <h2 className="center">Select Peak Times</h2>
                     <div className="peak-times-container">
 
                         <div className="peak-times-table-container">
@@ -700,11 +737,61 @@ class Edit extends Component {
                     <div className="center default-peak-times-container">
                         <RaisedButton className="blue-button" id="default-peak-times" label="Use Defaults" primary={true} onClick={this.setPeaks.bind(this)} />
                     </div>
+                </div>
+
+            )
+        }
+
+
+    }
+
+
+    getPeaks(){
+
+        return(
+            <MuiThemeProvider muiTheme={muiTheme}>
+                <div className="animated zoomIn">
                     <br />
+
+                    <h1 className="center">
+                        Enter Your Time-Of-Use Rates
+                    </h1>
+
+
+                    <div className="stepper-container-3">
+                        <Stepper activeStep={this.state.tab.data.peakData.step}>
+                            <Step>
+                                <StepLabel>Enter Energy Charge Rates</StepLabel>
+                            </Step>
+                            <Step>
+                                <StepLabel>Enter Demand Charge Rates</StepLabel>
+                            </Step>
+                            <Step>
+                                <StepLabel>Select Peak Times</StepLabel>
+                            </Step>
+                        </Stepper>
+                    </div>
+
+
+
+                    {this.getPeakStep()}
+
                     <br />
+
                     <div className="center next-button-container">
                         <RaisedButton className="blue-button" id="next-button-container" label="Next" primary={true} onClick={ () => {
+
+
+
                             let tempTab = Object.assign({}, this.state.tab)
+
+                            if (tempTab.data.peakData.step < 2){
+                                tempTab.data.peakData.step++
+                                return this.setState({
+                                    tab : tempTab
+                                })
+                            }
+
                             if (
 
                                 tempTab.data.peakData.peaks.oneAM !== null &&
@@ -765,22 +852,27 @@ class Edit extends Component {
                     </div>
                     <br />
 
-                    <ReactDataSheet
-                        data={this.state.tab.data.loadProfile.grid}
-                        valueRenderer={ (cell) => cell.value }
-                        onChange= {(cell, rowI, colJ, value) => {
-                            let tempTab = Object.assign({}, this.state.tab)
-                            for (let i = 0; i < tempTab.data.loadProfile.grid.length; i++){
-                                if(tempTab.data.loadProfile.grid[rowI][colJ] !== value){
-                                    tempTab.data.loadProfile.grid[rowI][colJ].value = value
-                                }
 
-                            }
-                            return this.setState({
-                                tab : tempTab
-                            })
-                        }}
-                     />
+                    <div className="data-sheet">
+                        <ReactDataSheet
+                            data={this.state.tab.data.loadProfile.grid}
+                            valueRenderer={ (cell) => cell.value }
+                            onChange= {(cell, rowI, colJ, value) => {
+                                let tempTab = Object.assign({}, this.state.tab)
+                                for (let i = 0; i < tempTab.data.loadProfile.grid.length; i++){
+                                    if(tempTab.data.loadProfile.grid[rowI][colJ] !== value && tempTab.data.loadProfile.grid[rowI][colJ].readOnly !== true){
+                                        tempTab.data.loadProfile.grid[rowI][colJ].value = value
+                                    }
+
+                                }
+                                return this.setState({
+                                    tab : tempTab
+                                })
+                            }}
+                         />
+                    </div>
+
+
                      <br />
 
 
@@ -791,7 +883,7 @@ class Edit extends Component {
                              id="file-upload"
                              type="file"
                              style={{display : "none"}}
-                             accept=".xlsx, .xls, .csv"
+                             accept=".csv"
                              onChange={ (event, stuff) => {
                                  window.TEST = event.target
 
@@ -803,7 +895,7 @@ class Edit extends Component {
 
                                      // TODO: need to implement actual reading of .csv, .xlsx, .xls files and populate the grid with it
 
-                                     for (let i = 0; i < tempTab.data.loadProfile.grid.length - 1; i++){
+                                     for (let i = 1; i < tempTab.data.loadProfile.grid.length - 1; i++){
                                          for (let j = 1; j < tempTab.data.loadProfile.grid[i].length; j++){
                                              tempTab.data.loadProfile.grid[i][j].value =  Math.floor(Math.random() * 10) +  Math.floor(Math.random() * 10) +  Math.floor(Math.random() * 10)
                                          }
@@ -822,7 +914,7 @@ class Edit extends Component {
 
                              // TODO: need to implement default load data
 
-                             for (let i = 0; i < tempTab.data.loadProfile.grid.length - 1; i++){
+                             for (let i = 1; i < tempTab.data.loadProfile.grid.length - 1; i++){
                                  for (let j = 1; j < tempTab.data.loadProfile.grid[i].length; j++){
                                      tempTab.data.loadProfile.grid[i][j].value =  Math.floor(Math.random() * 10) +  Math.floor(Math.random() * 10) +  Math.floor(Math.random() * 10)
                                  }
@@ -859,10 +951,44 @@ class Edit extends Component {
         )
     }
 
-    setAdditionalConstraints(event){
+    setAdditionalConstraints(event, text){
         console.log(event.target)
 
         let tempTab = Object.assign({}, this.state.tab)
+
+
+
+        if (event.target.id === "cost-constraint-input"){
+            tempTab.data.additionalConstraints.costConstraint.value = text
+            return this.setState({
+                tab : tempTab
+            })
+        }
+        if (event.target.id === "solar-size-constraint-input"){
+            tempTab.data.additionalConstraints.solarSizeConstraint.value = text
+            return this.setState({
+                tab : tempTab
+            })
+        }
+        if (event.target.id === "grid-size-constraint-input"){
+            tempTab.data.additionalConstraints.gridSizeConstraint.value = text
+            return this.setState({
+                tab : tempTab
+            })
+        }
+        if (event.target.id === "generator-size-constraint-input"){
+            tempTab.data.additionalConstraints.generatorSizeConstraint.value = text
+            return this.setState({
+                tab : tempTab
+            })
+        }
+        if (event.target.id === "battery-size-constraint-input"){
+            tempTab.data.additionalConstraints.batterySizeConstraint.value = text
+            return this.setState({
+                tab : tempTab
+            })
+        }
+
 
         if (event.target.id === "cost-constraint"){
             if (tempTab.data.additionalConstraints.costConstraint.checked){
@@ -939,10 +1065,91 @@ class Edit extends Component {
         })
     }
 
+
+
+
+    getStepTwo(){
+        let constraints = []
+
+        if (this.state.tab.data.additionalConstraints.costConstraint.checked){
+            constraints.push(
+                <div>
+                    <label className="center"> Cost Constraint </label>
+                    <div className="cost-constraint-input-container center constraint">
+                        <TextField id="cost-constraint-input" value={this.state.tab.data.additionalConstraints.costConstraint.value}  hintText="" onChange={this.setAdditionalConstraints.bind(this)}/>
+                    </div>
+                </div>
+
+            )
+        }
+        if (this.state.tab.data.additionalConstraints.solarSizeConstraint.checked){
+            constraints.push(
+                <div>
+                    <label className="center"> Solar Size Constraint (kW) </label>
+                    <div className="solar-size-constraint-input-container center constraint">
+                        <TextField id="solar-size-constraint-input" value={this.state.tab.data.additionalConstraints.solarSizeConstraint.value}  hintText="" onChange={this.setAdditionalConstraints.bind(this)}/>
+                    </div>
+                </div>
+
+            )
+        }
+        if (this.state.tab.data.additionalConstraints.gridSizeConstraint.checked){
+            constraints.push(
+                <div>
+                    <label className="center"> Grid Size Constraint (kW) </label>
+                    <div className="grid-size-constraint-input-container center constraint">
+                        <TextField id="grid-size-constraint-input" value={this.state.tab.data.additionalConstraints.gridSizeConstraint.value}  hintText="" onChange={this.setAdditionalConstraints.bind(this)}/>
+                    </div>
+                </div>
+            )
+        }
+        if (this.state.tab.data.additionalConstraints.generatorSizeConstraint.checked){
+            constraints.push(
+                <div>
+                    <label className="center"> Generator Size Constraint (kW) </label>
+                    <div className="generator-size-constraint-input-container center constraint">
+                        <TextField id="generator-size-constraint-input" value={this.state.tab.data.additionalConstraints.generatorSizeConstraint.value}  hintText="" onChange={this.setAdditionalConstraints.bind(this)}/>
+                    </div>
+                </div>
+
+            )
+        }
+        if (this.state.tab.data.additionalConstraints.batterySizeConstraint.checked){
+            constraints.push(
+                <div>
+                    <label className="center"> Battery Size Constraint (kW) </label>
+                    <div className="battery-size-constraint-input-container center constraint">
+                        <TextField id="battery-size-constraint-input" value={this.state.tab.data.additionalConstraints.batterySizeConstraint.value}  hintText="" onChange={this.setAdditionalConstraints.bind(this)}/>
+                    </div>
+                </div>
+
+            )
+        }
+        /*
+        if (this.state.tab.data.additionalConstraints.chargeFromSolar.checked){
+            constraints.push(
+                <div>
+                    <label className="center"> Charge From Solar </label>
+                </div>
+            )
+        }
+        */
+        return (
+            <div>
+                {
+                    constraints.map( (index) => {
+                        return index
+                    })
+                }
+            </div>
+        )
+
+    }
+
     getSteps(){
         if (this.state.tab.data.additionalConstraints.step === 0){
             return(
-                <div className="stepper-content">
+                <div className="stepper-content-1">
                     <Checkbox id="cost-constraint"  label="Cost Constraint" checked={this.state.tab.data.additionalConstraints.costConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
                     <Checkbox id="solar-size-constraint"  label="Solar Size Constraint" checked={this.state.tab.data.additionalConstraints.solarSizeConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
                     <Checkbox id="grid-size-constraint"  label="Grid Size Constraint" checked={this.state.tab.data.additionalConstraints.gridSizeConstraint.checked} onCheck={this.setAdditionalConstraints.bind(this)}/>
@@ -955,18 +1162,12 @@ class Edit extends Component {
         }
         else if (this.state.tab.data.additionalConstraints.step === 1){
             return(
-                <div className="stepper-content">
-
+                <div className="stepper-content-2">
+                    {this.getStepTwo()}
                 </div>
             )
         }
-        else if (this.state.tab.data.additionalConstraints.step === 2){
-            return(
-                <div className="stepper-content">
 
-                </div>
-            )
-        }
     }
     getAdditionalConstraints(){
         return (
@@ -1008,24 +1209,13 @@ class Edit extends Component {
                                     More Info
                                 </StepButton>
                             </Step>
-                            <Step>
-                                <StepButton onClick={() => {
-                                    let tempTab = Object.assign({}, this.state.tab)
-                                    tempTab.data.additionalConstraints.step = 2
-                                    this.setState({
-                                        tab : tempTab
-                                    })
-                                }}>
-                                    Done
-                                </StepButton>
-                            </Step>
                         </Stepper>
                         {this.getSteps()}
                         <div className="center">
                             <RaisedButton label="Next" primary={true} className="blue-button" onClick={() => {
                                 let tempTab = Object.assign({}, this.state.tab)
 
-                                if (tempTab.data.additionalConstraints.step < 2){
+                                if (tempTab.data.additionalConstraints.step < 1){
                                     tempTab.data.additionalConstraints.step++
                                 }
                                 else {

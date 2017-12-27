@@ -165,12 +165,11 @@ th {
 
 .peak-times-container {
     border: 1px solid black;
-    max-height: 25vh;
+    margin-left: 2vh;
+    margin-right: 2vh;
+    margin-top: 2vh;
+    max-height: 50vh;
     overflow-y: scroll;
-}
-
-.peak-times-table-container {
-    /* border : 2px solid red; */
 }
 
 .load-data-container {
@@ -195,6 +194,33 @@ th {
     margin: auto;
 }
 
+.stepper-container-3 {
+    max-width: 80vw;
+    margin: auto;
+}
+
+.energy-rate-container {
+    max-width: 80vw;
+    margin: auto;
+}
+
+.demand-rate-container {
+    max-width: 80vw;
+    margin: auto;
+}
+
+.stepper-content {
+    padding-left: 30vw;
+}
+
+.constraint {
+    margin-left: 2vh;
+    margin-right: 2vh;
+    margin-bottom: 2vh;
+    border: 1px solid black;
+}
+
+
 .box {
     border : 1px solid black;
     padding-top: 1vh;
@@ -204,7 +230,13 @@ th {
     margin-right: 10vh;
 }
 
-
+.data-sheet {
+    max-height: 60vh;
+    overflow-y: scroll;
+    border: 1px solid black;
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
 
 /*base tablet to small desktop styles*/
 @media (min-width: 800px) and (max-width: 1100px) {

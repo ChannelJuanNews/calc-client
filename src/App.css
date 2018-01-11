@@ -163,6 +163,40 @@ th {
     padding-left: 21vw;
 }
 
+#toggle-container {
+  /* background-color: red; */
+}
+#toggle-table {
+  width: 30vw;
+  max-width: 30vw;
+  /* background-color: blue; */
+  margin: 0 auto;
+}
+
+td {
+  /* background-color: green; */
+  text-align: center;
+}
+
+#td-summer {
+  text-align: right;
+  margin-left: 1vw;
+}
+
+#td-toggle {
+  padding-left: 2.5vw;
+
+}
+
+#td-winter {
+  text-align: left;
+}
+
+#toggle {
+  width: 10px;
+  margin-left: 100px;
+}
+
 .peak-times-container {
     border: 1px solid black;
     margin-left: 2vh;

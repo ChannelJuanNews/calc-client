@@ -22,7 +22,8 @@ import {
     Stepper,
     StepButton,
     StepLabel,
-    CircularProgress
+    CircularProgress,
+    Toggle
 }  from 'material-ui'
 
 import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles'
@@ -851,6 +852,15 @@ class Edit extends Component {
                     </div>
                     <br />
 
+                    <div id="toggle-container">
+                        <table id="toggle-table">
+                          <tr>
+                          </tr>
+                            <td id="td-summer"> <label> Summer Load </label> </td>
+                            <td id="td-toggle"> <label> <Toggle /> </label> </td>
+                            <td id="td-winter"> <label> Winter Load  </label> </td>
+                        </table>
+                    </div>
 
                     <div className="data-sheet">
                         <ReactDataSheet

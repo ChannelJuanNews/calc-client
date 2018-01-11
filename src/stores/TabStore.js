@@ -92,6 +92,7 @@ class TabStore extends EventEmitter {
               },
               loadProfile : {
                   file : null,
+                  timeOfYear : "Summer",
                   grid : [
 
                       [
@@ -285,7 +286,6 @@ class TabStore extends EventEmitter {
                 break
             default:
                 console.log("This action not supported")
-
         }
     }
     getAll(){

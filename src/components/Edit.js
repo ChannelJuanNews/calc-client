@@ -554,7 +554,7 @@ class Edit extends Component {
                 <div>
                     <br />
                     <div className="center">
-                        <h2>Enter Your Energy Charge Rates</h2>
+                        <h2>Enter Your Demand Charge Rates</h2>
                     </div>
 
                     <br />

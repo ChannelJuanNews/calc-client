@@ -25,8 +25,8 @@ export default (thisRef, event, text, tempTab, peak) => {
   }
   else if(peak === 'defaultPeaks'){
       tempTab.data.peakData.onPeakPrice = "$0.1033"
-      tempTab.data.peakData.offPeakPrice = "$0.0828"
-      tempTab.data.peakData.midPeakPrice = "$0.0727"
+      tempTab.data.peakData.offPeakPrice = "$0.0727"
+      tempTab.data.peakData.midPeakPrice = "$0.0828"
 
       return thisRef.setState({
           tab : tempTab
